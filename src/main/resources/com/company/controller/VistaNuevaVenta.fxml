@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.company.controller.NuevaVentaController">
+   <top>
+      <HBox prefHeight="165.0" style="-fx-background-color: #ed7d00;" BorderPane.alignment="CENTER">
+         <children>
+            <VBox prefHeight="200.0" prefWidth="800.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label fx:id="lblTitle" text="Sistema de Gestión de las ventas" textFill="WHITE" VBox.vgrow="ALWAYS">
+                     <font>
+                        <Font name="Calibri Light" size="36.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets top="20.0" />
+                     </padding>
+                  </Label>
+                  <Label fx:id="lblDescription" text="Bienvenido al sistema de administracion y gestion de su compañia " textFill="WHITE">
+                     <font>
+                        <Font name="Calibri Light" size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtDate" editable="false" maxWidth="180.0" prefHeight="34.0" prefWidth="240.0" promptText="Mostrar la fecha y hora actual del sistema">
+                     <font>
+                        <Font name="Calibri Light" size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </TextField>
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+            </VBox>
+            <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="400.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <ImageView fx:id="imageMain" fitHeight="136.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <image>
+                        <Image url="@image1.png" />
+                     </image>
+                  </ImageView>
+               </children>
+               <padding>
+                  <Insets right="50.0" />
+               </padding>
+            </VBox>
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </HBox>
+   </top>
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="50.0" style="-fx-background-color: #ed7d00;" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Derechos de autor - sistema de gestión" textFill="WHITE" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font name="Calibri Light" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+   </bottom>
+   <center>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Datos sobre la nueva venta">
+               <font>
+                  <Font name="Calibri Light" size="24.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </Label>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <Label text="Total">
+                     <font>
+                        <Font name="Calibri Light" size="24.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="txtTotal" prefHeight="50.0" prefWidth="300.0" promptText="Ingresa el total de la venta">
+                     <font>
+                        <Font name="Calibri Light" size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <Label text="Fecha">
+                     <font>
+                        <Font name="Calibri Light" size="24.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="txtSaleDate" editable="false" prefHeight="50.0" prefWidth="300.0" promptText="Fecha actual">
+                     <font>
+                        <Font name="Calibri Light" size="18.0" />
+                     </font>
+                  </TextField>
+               </children>
+               <VBox.margin>
+                  <Insets top="50.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="Descripción">
+                     <font>
+                        <Font name="Calibri Light" size="24.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="txtSaleDescription" prefHeight="50.0" prefWidth="500.0" promptText="Descripción de la venta">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <Button fx:id="btnGenerateSale" mnemonicParsing="false" onAction="#generateSale" prefHeight="50.0" prefWidth="150.0" text="Generar venta">
+                     <HBox.margin>
+                        <Insets right="100.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="Calibri Light" size="18.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btnReturnEmployeeSale" mnemonicParsing="false" onAction="#switchToEmployee" prefHeight="50.0" prefWidth="120.0" text="Cancelar">
+                     <font>
+                        <Font name="Calibri Light" size="18.0" />
+                     </font>
+                  </Button>
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

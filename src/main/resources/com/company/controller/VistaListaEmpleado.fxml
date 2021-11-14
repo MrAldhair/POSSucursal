@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="650.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.company.controller.ListaEmpleadoController">
+   <bottom>
+      <VBox alignment="CENTER" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" prefHeight="50.0" style="-fx-background-color: #ed7d00;">
+               <children>
+                  <Label text="Derechos de autor - sistema de gestión" textFill="WHITE">
+                     <font>
+                        <Font name="Calibri Light" size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </bottom>
+   <center>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Lista General de Empleados">
+               <font>
+                  <Font name="Calibri Light" size="24.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="20.0" top="20.0" />
+               </VBox.margin>
+            </Label>
+            <TableView fx:id="tableEmployees" prefHeight="288.0" prefWidth="621.0">
+               <columns>
+                  <TableColumn fx:id="colIdEmploye" prefWidth="127.0" text="ID Empleado" />
+                  <TableColumn fx:id="colUser" prefWidth="202.0" text="Usuario" />
+                  <TableColumn fx:id="colPassword" minWidth="6.0" prefWidth="232.0" text="Contraseña" />
+                  <TableColumn fx:id="colTypeUser" minWidth="6.0" prefWidth="209.0" text="Tipo de usuario" />
+                  <TableColumn fx:id="colDate" prefWidth="189.0" text="Fecha de registro" />
+               </columns>
+               <VBox.margin>
+                  <Insets left="20.0" right="20.0" />
+               </VBox.margin>
+            </TableView>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="570.0">
+               <children>
+                  <Button fx:id="btnGenerateEmployee" mnemonicParsing="false" onAction="#generateNewEmployee" prefHeight="40.0" prefWidth="115.0" text="Agregar">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="80.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="btnDelEmployee" mnemonicParsing="false" onAction="#deleteEmployee" prefHeight="40.0" prefWidth="115.0" text="Eliminar">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="80.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="btnReturn" mnemonicParsing="false" onAction="#swichToAdministrador" prefHeight="40.0" prefWidth="115.0" text="Regresar">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+   <top>
+      <HBox prefHeight="165.0" style="-fx-background-color: #ed7d00;" BorderPane.alignment="CENTER">
+         <children>
+            <VBox prefHeight="173.0" prefWidth="600.0">
+               <children>
+                  <Label fx:id="lblTitle" text="Sistema de Gestión de las ventas" textFill="WHITE" VBox.vgrow="ALWAYS">
+                     <font>
+                        <Font name="Calibri Light" size="36.0" />
+                     </font>
+                     <padding>
+                        <Insets top="20.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label fx:id="lblDescription" text="Bienvenido al sistema de administracion y gestion de su compañia " textFill="WHITE">
+                     <font>
+                        <Font name="Calibri Light" size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtDate" editable="false" maxWidth="180.0" prefHeight="34.0" prefWidth="240.0" promptText="Mostrar la fecha y hora actual del sistema">
+                     <font>
+                        <Font name="Calibri Light" size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </TextField>
+               </children>
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+            </VBox>
+            <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="400.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <ImageView fx:id="imageMain" fitHeight="136.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@image1.png" />
+                     </image>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </ImageView>
+               </children>
+               <padding>
+                  <Insets right="50.0" />
+               </padding>
+            </VBox>
+         </children>
+      </HBox>
+   </top>
+</BorderPane>
