@@ -5,7 +5,6 @@ import Business.RequestApiSales;
 import Configurations.Alerts;
 import Configurations.CleanTextfield;
 import Configurations.DataAndHour;
-import Configurations.IdUser;
 import Configurations.LoadImage;
 import ConnectionDB.ConnDBH2;
 import Models.Employee;
@@ -46,13 +45,14 @@ public class NuevaVentaController implements Initializable{
     @FXML private TextField txtSaleDescription;
     @FXML private TextField txtSaleDate;
     @FXML private Button btnReturnEmployeeSale;
+    @FXML private Label lblUserName;
     
     Alert alert = new Alert(Alert.AlertType.NONE);
     
     // Lista de textfield
     private final List<TextField> listTextfield;
     
-    Employee em = new Employee();
+    Employee name_employee = new Employee();
     
     // Instancias la clase que hemos creado anteriormente
     private static final ConnDBH2 SQL = new ConnDBH2();
@@ -62,6 +62,7 @@ public class NuevaVentaController implements Initializable{
     private static String sSQL = "";
     //ResultSet
     private ResultSet rs;
+    
     
    
     
@@ -76,7 +77,7 @@ public class NuevaVentaController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         
         // Usuario que inicia sesion trasferido desde la clase PrincipalController
-        this.em.setUser(PrincipalController.em.getUser()); 
+        this.name_employee.setUser(PrincipalController.em.getUser()); 
         
         DataAndHour.dateAndHour(txtDate);
         
@@ -88,6 +89,10 @@ public class NuevaVentaController implements Initializable{
         this.txtSaleDate.setText(dtf.format(now));
         
         LoadImage.loadImageMain(this.imageMain);
+        
+        // Usuario que inicia sesion
+        this.name_employee.setUser(PrincipalController.em.getUser());
+        this.lblUserName.setText("Usuario: " + name_employee.getUser());
         
     }
 
@@ -189,7 +194,7 @@ public class NuevaVentaController implements Initializable{
         int idUser = 0;
         
         PreparedStatement preparedStatement = conn.prepareStatement(sSQL);
-        preparedStatement.setString(1, em.getUser());
+        preparedStatement.setString(1, name_employee.getUser());
         rs = preparedStatement.executeQuery();
        
         if(rs.next()){

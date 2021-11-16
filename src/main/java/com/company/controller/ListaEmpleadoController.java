@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.company.controller;
 
 import Configurations.Alerts;
@@ -49,6 +45,7 @@ public final class ListaEmpleadoController implements Initializable {
     @FXML private TableColumn<Employee, String> colPassword;
     @FXML private TableColumn<Employee, String> colTypeUser;
     @FXML private TableColumn<Employee, String> colDate;
+    @FXML private Label lblNameUser;
     
     // Lista de empleados para llenar la tabla
     private ObservableList<Employee> empleyees;
@@ -68,6 +65,7 @@ public final class ListaEmpleadoController implements Initializable {
     //Alerta
     Alert alert = new Alert(Alert.AlertType.NONE);
     
+    Employee name_employee = new Employee();
     
 
     @Override
@@ -86,6 +84,10 @@ public final class ListaEmpleadoController implements Initializable {
         this.colDate.setCellValueFactory(new PropertyValueFactory("idBranch"));
  
         fillTable();
+        
+        // Usuario que inicia sesion
+        this.name_employee.setUser(PrincipalController.em.getUser());
+        this.lblNameUser.setText("Usuario: " + name_employee.getUser());
         
     }
     

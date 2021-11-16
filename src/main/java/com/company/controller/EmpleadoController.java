@@ -55,6 +55,7 @@ public class EmpleadoController implements Initializable{
     @FXML private TableColumn<Sale, Double> colTotalSale;
     @FXML private TableColumn<Sale, String> colDescriptionSale;
     @FXML private TableColumn<Sale, String> colDateSale;
+    @FXML private Label lblUserName;
     
     private ObservableList<Sale> listSales;
     
@@ -74,7 +75,9 @@ public class EmpleadoController implements Initializable{
     // Query que usarás para hacer lo que necesites
     private static String sSQL = "";
     private ResultSet rs;
-
+    
+    Employee name_employee = new Employee();
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -107,6 +110,10 @@ public class EmpleadoController implements Initializable{
             Logger.getLogger(EmpleadoController.class.getName()).log(Level.SEVERE, null, ex);
             
         }
+        
+        // Usuario que inicia sesion
+        this.name_employee.setUser(PrincipalController.em.getUser());
+        this.lblUserName.setText("Usuario: " + name_employee.getUser());
         
     }
 

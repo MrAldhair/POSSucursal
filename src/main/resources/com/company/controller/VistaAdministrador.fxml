@@ -153,7 +153,7 @@
             </VBox>
             <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="400.0" HBox.hgrow="ALWAYS">
                <children>
-                  <ImageView fx:id="imageMain" fitHeight="136.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imageMain" fitHeight="87.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@image1.png" />
                      </image>
@@ -161,6 +161,14 @@
                         <Insets />
                      </VBox.margin>
                   </ImageView>
+                  <Label fx:id="lblNameUser" text="Usuario: " textFill="WHITE">
+                     <VBox.margin>
+                        <Insets top="15.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="Calibri Light" size="18.0" />
+                     </font>
+                  </Label>
                </children>
                <padding>
                   <Insets right="50.0" />

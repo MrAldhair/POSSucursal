@@ -4,7 +4,7 @@ package com.company.controller;
 import Configurations.Alerts;
 import Configurations.DataAndHour;
 import Configurations.LoadImage;
-import ConnectivityAPI.Connectivity;
+import Models.Employee;
 import Models.Sale;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,8 +14,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -30,7 +28,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-import javax.xml.ws.http.HTTPException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -54,6 +51,7 @@ public class AdministradorController implements Initializable {
     @FXML private TableColumn<Sale, Double> colIdTotalSale;
     @FXML private TableColumn<Sale, String> coldescription;
     @FXML private TableColumn<Sale, String> colDate;
+    @FXML private Label lblNameUser;
     
     private ObservableList<Sale> listSales;
     private BufferedReader bufferedReader;
@@ -64,6 +62,9 @@ public class AdministradorController implements Initializable {
     Alert alert = new Alert(Alert.AlertType.NONE);
     
     private Double totalSales = 0.0;
+    
+    Employee name_employee = new Employee();
+    
  
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -79,6 +80,10 @@ public class AdministradorController implements Initializable {
         this.colDate.setCellValueFactory(new PropertyValueFactory<>("date_sale"));
         
         listSales = tbSalesAdmin.getItems();
+        
+        // Usuario que inicia sesion
+        this.name_employee.setUser(PrincipalController.em.getUser());
+        this.lblNameUser.setText("Usuario: " + name_employee.getUser());
         
     }    
 
