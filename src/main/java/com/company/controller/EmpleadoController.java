@@ -161,7 +161,7 @@ public class EmpleadoController implements Initializable{
 
                 JSONObject row = dataArray.getJSONObject(i); 
                 
-                if(row.getInt("id_employee") == 6){
+                if(row.getInt("id_employee") == 32){
                     
                     listSales.add(new Sale(row.getLong("id_sale"), row.getInt("id_employee"), row.getInt("id_branch_office"), row.getDouble("total_sale"), row.getString("description"), row.getString("date_sale")));
                     

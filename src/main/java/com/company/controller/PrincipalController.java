@@ -121,7 +121,7 @@ public class PrincipalController implements Initializable {
                             
                             App.setRoot("VistaAdministrador");
                             Alerts.alertInformation("Inicio de sesion", "Bienvenido: " + username);
-                            
+                            conn.close();
                         } catch (IOException e) {
                             
                             System.out.println("Error: " + e.getMessage());

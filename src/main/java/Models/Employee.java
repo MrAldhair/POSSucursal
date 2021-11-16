@@ -19,6 +19,9 @@ public class Employee {
         this.typeEmployee = typeEmployee;
         this.idBranch = idBranch;
     }
+        public Employee(String user) {
+        this.user = user;
+    }
 
     public Integer getId() {
         return id;

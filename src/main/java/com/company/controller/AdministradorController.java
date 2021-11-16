@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -90,8 +91,53 @@ public class AdministradorController implements Initializable {
     }
 
     @FXML
-    private void filterUsers(ActionEvent event) {
-        
+    private void filterUsers(ActionEvent event) throws ProtocolException, IOException {
+        try { 
+        String selectedItem = cBoxUsers.getSelectionModel().getSelectedItem();
+        url = new URL("http://localhost:9001/listar");
+
+        //realiza la conexion
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");            
+        connection.connect();
+
+        if(connection.getResponseCode() == 200 && selectedItem!=null){  
+
+            System.out.println("Response: OK");
+            //obtiene respuesta
+            bufferedReader  = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            stringBuilder = new StringBuilder();
+
+            while ((line = bufferedReader.readLine()) != null) {
+
+                stringBuilder.append(line);
+
+            }
+
+            JSONArray dataArray  = new JSONArray(stringBuilder.toString());
+            this.tbSalesAdmin.getItems().removeAll(listSales);
+
+            for(int i = 0 ; i < dataArray.length(); i++){
+
+                JSONObject row = dataArray.getJSONObject(i); 
+                
+//                if(row.getInt("id_employee") == 6){
+                  if(row.getInt("id_employee")== /*selectedItem*/ 32){
+                      
+                    listSales.add(new Sale(row.getLong("id_sale"), row.getInt("id_employee"), row.getInt("id_branch_office"), row.getDouble("total_sale"), row.getString("description"), row.getString("date_sale")));
+                }else{
+                      System.out.println("no hay datos registrados");
+                  }
+                
+            }
+
+        }
+
+        } catch (MalformedURLException e) {
+
+                e.printStackTrace();
+
+        }
     }
 
     @FXML
