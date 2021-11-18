@@ -12,10 +12,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-/**
- * Single class of connectivity
- * @author Aldhair
- */
 public class Connectivity {
     
    

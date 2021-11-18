@@ -1,4 +1,3 @@
-
 package Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -31,8 +30,6 @@ public class Sale {
             this.id_branch_office = id_branch_office;
             this.total_sale = total_sale;
             this.description = description;
-            this.date_sale = date_sale;
-            
-    }  
-    
+            this.date_sale = date_sale;        
+    }
 }

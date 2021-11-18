@@ -1,8 +1,10 @@
 
 package com.company.controller;
 
+import Configurations.Alerts;
 import Configurations.DataAndHour;
 import Configurations.LoadImage;
+import ConnectionDB.ConnDBH2;
 import Models.Employee;
 import Models.Sale;
 import java.io.BufferedReader;
@@ -11,6 +13,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,7 +25,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -46,6 +55,7 @@ public class EmpleadoController implements Initializable{
     @FXML private TableColumn<Sale, Double> colTotalSale;
     @FXML private TableColumn<Sale, String> colDescriptionSale;
     @FXML private TableColumn<Sale, String> colDateSale;
+    @FXML private Label lblUserName;
     
     private ObservableList<Sale> listSales;
     
@@ -54,16 +64,27 @@ public class EmpleadoController implements Initializable{
     private String line;        	
     private URL url;
     
-    
+    Alert alert = new Alert(Alert.AlertType.NONE);
     
     Employee em = new Employee();
     
-  
+     // Instancias la clase que hemos creado anteriormente
+    private static ConnDBH2 SQL = new ConnDBH2();
+    // Llamas al método que tiene la clase y te devuelve una conexión
+    private static Connection conn;
+    // Query que usarás para hacer lo que necesites
+    private static String sSQL = "";
+    private ResultSet rs;
+    
+    Employee name_employee = new Employee();
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        
-        this.em.setUser(PrincipalController.em.getUser()); 
-        
+
+       // Usuario que inicia sesion trasferido desde la clase PrincipalController
+       this.em.setUser(PrincipalController.em.getUser()); 
+       System.out.println(em.getUser());
+  
         DataAndHour.dateAndHour(this.txtDate);
         
         LoadImage.loadImageMain(this.imageMain);
@@ -79,14 +100,21 @@ public class EmpleadoController implements Initializable{
         listSales = (ObservableList<Sale>) tbSales.getItems();
         
         
+        // intentar ejecutar desde el constructor de esta clase
         try {
+            
             loadDataApi();
-        } catch (IOException ex) {
+            
+        } catch (IOException | SQLException ex) {
+            
             Logger.getLogger(EmpleadoController.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
         
-        System.out.println(em.getUser());
-
+        // Usuario que inicia sesion
+        this.name_employee.setUser(PrincipalController.em.getUser());
+        this.lblUserName.setText("Usuario: " + name_employee.getUser());
+        
     }
 
     @FXML private void newSale(ActionEvent event) {
@@ -116,9 +144,27 @@ public class EmpleadoController implements Initializable{
         if(ev.equals(this.btnSignOutEmployee)){
         
             try {
-            
-            App.setRoot("VistaPrincipal");
+                
+                this.alert = new Alert(Alert.AlertType.CONFIRMATION);
+                this.alert.setTitle("Cerrar sesión");
+                this.alert.setContentText("¿Esta seguro de salir?");
+                this.alert.setHeaderText(null);
+                        
+                // Se agrega esto para obtener el resultado de la alerta de la confirmación
+                Optional<ButtonType> action = this.alert.showAndWait();
 
+
+                // confirmacion de la alerta
+                if (action.get() == ButtonType.OK) {
+                
+                    App.setRoot("VistaPrincipal");
+                    
+                } else {
+                    
+                    Alerts.alertInformation("Cerrar sesión", "Puede seguir trabajando...");
+                    
+                }
+            
             } catch (IOException e) {
 
                 System.out.println("Error: " + e.getMessage());
@@ -130,7 +176,7 @@ public class EmpleadoController implements Initializable{
     }
     
    
-    private void loadDataApi() throws IOException {
+    private void loadDataApi() throws IOException, SQLException {
             
         try { 
 
@@ -161,7 +207,7 @@ public class EmpleadoController implements Initializable{
 
                 JSONObject row = dataArray.getJSONObject(i); 
                 
-                if(row.getInt("id_employee") == 32){
+                if(row.getInt("id_employee") == userLogin()){
                     
                     listSales.add(new Sale(row.getLong("id_sale"), row.getInt("id_employee"), row.getInt("id_branch_office"), row.getDouble("total_sale"), row.getString("description"), row.getString("date_sale")));
                     
@@ -179,5 +225,26 @@ public class EmpleadoController implements Initializable{
              
         
     }
-   
+    
+    private int userLogin() throws SQLException {
+    
+        conn = SQL.connectionDbH2();
+        sSQL = "SELECT idemployee FROM useremployee WHERE user=?";
+        
+        int idUser = 32;
+        
+        PreparedStatement preparedStatement = conn.prepareStatement(sSQL);
+        preparedStatement.setString(1, em.getUser());
+        rs = preparedStatement.executeQuery();
+       
+        if(rs.next()){
+            
+            idUser = rs.getInt("idemployee");
+            
+        }
+    
+        return idUser;
+        
+    }
+    
 }
