@@ -5,6 +5,7 @@ import Configurations.CleanTextfield;
 import Configurations.DataAndHour;
 import Configurations.LoadImage;
 import ConnectionDB.ConnDBH2;
+import Models.Employee;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -42,6 +43,7 @@ public class AgregarEmpleadoController implements Initializable {
     @FXML private RadioButton radioEmpleado;
     @FXML private Button btnRegistrarEmpleado;
     @FXML private Button btnCancelarRegistro;
+    @FXML private Label lblNameUser;
 
     // Agrupar radio buttons
     ToggleGroup tg = new ToggleGroup(); 
@@ -56,6 +58,8 @@ public class AgregarEmpleadoController implements Initializable {
     
     // Lista de textfield
     private List<TextField> listTextfield;
+    
+    Employee name_employee = new Employee();
 
     public AgregarEmpleadoController() {
         
@@ -81,6 +85,10 @@ public class AgregarEmpleadoController implements Initializable {
         this.listTextfield.add(this.txtUsuario);
         this.listTextfield.add(this.txtContrasena);
         this.listTextfield.add(this.txtContrasena2);
+        
+        // Usuario que inicia sesion
+        this.name_employee.setUser(PrincipalController.em.getUser());
+        this.lblNameUser.setText("Usuario: " + name_employee.getUser());
         
     }
 

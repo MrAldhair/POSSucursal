@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.company.controller;
 
 import Configurations.Alerts;
@@ -35,6 +31,7 @@ import javafx.scene.image.ImageView;
 
 
 public final class ListaEmpleadoController implements Initializable {
+
     @FXML private Label lblDescription;
     @FXML private Label lblTitle;
     @FXML private TableView<Employee> tableEmployees;
@@ -48,6 +45,7 @@ public final class ListaEmpleadoController implements Initializable {
     @FXML private TableColumn<Employee, String> colPassword;
     @FXML private TableColumn<Employee, String> colTypeUser;
     @FXML private TableColumn<Employee, String> colDate;
+    @FXML private Label lblNameUser;
     
     // Lista de empleados para llenar la tabla
     private ObservableList<Employee> empleyees;
@@ -67,9 +65,12 @@ public final class ListaEmpleadoController implements Initializable {
     //Alerta
     Alert alert = new Alert(Alert.AlertType.NONE);
     
+    Employee name_employee = new Employee();
+    
+
     @Override
-    public void initialize(URL url, ResourceBundle rb) {    
-        DataAndHour.dateAndHour(this.txtDate);   
+    public void initialize(URL url, ResourceBundle rb) {
+        DataAndHour.dateAndHour(this.txtDate);
         LoadImage.loadImageMain(this.imageMain);
         this.empleyees = FXCollections.observableArrayList();
         this.colIdEmploye.setCellValueFactory(new PropertyValueFactory("id"));
@@ -77,8 +78,13 @@ public final class ListaEmpleadoController implements Initializable {
         this.colPassword.setCellValueFactory(new PropertyValueFactory("password"));
         this.colTypeUser.setCellValueFactory(new PropertyValueFactory("typeEmployee"));
         this.colDate.setCellValueFactory(new PropertyValueFactory("idBranch"));
-        fillTable();
+ 
+        fillTable();    
+        // Usuario que inicia sesion
+        this.name_employee.setUser(PrincipalController.em.getUser());
+        this.lblNameUser.setText("Usuario: " + name_employee.getUser());
     }
+    
     
     @FXML
     private void generateNewEmployee(ActionEvent event) {
@@ -127,7 +133,7 @@ public final class ListaEmpleadoController implements Initializable {
                 }
             } else {
                 Alerts.alertWarning("Eliminar empleado", "Debes seleccionar un elemento de la tabla apara poder eliminarlo");
-            }
+            }        
         } 
     }
 
@@ -143,7 +149,7 @@ public final class ListaEmpleadoController implements Initializable {
         }
     }
     
-    public void fillTable(){    
+    public void fillTable(){
         conn = SQL.connectionDbH2();
         querySql = "SELECT * FROM useremployee";
         try {
@@ -162,7 +168,6 @@ public final class ListaEmpleadoController implements Initializable {
             System.out.println(e.getMessage());
         }
     }
-    
     public void listUsers(){
         conn = SQL.connectionDbH2();
         querySql = "SELECT user FROM useremployee";
