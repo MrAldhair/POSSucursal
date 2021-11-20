@@ -37,12 +37,14 @@
             </Label>
             <TableView fx:id="tbSalesAdmin" prefHeight="229.0" prefWidth="960.0">
                <columns>
-                  <TableColumn fx:id="colIdSale" text="ID Venta" />
-                  <TableColumn fx:id="colIdEmployee" prefWidth="94.0" text="ID Empleado" />
-                  <TableColumn fx:id="colIdBranchOffice" prefWidth="101.0" text="ID sucursal" />
-                  <TableColumn fx:id="colIdTotalSale" prefWidth="135.0" text="Total de la  venta" />
-                  <TableColumn fx:id="coldescription" prefWidth="434.0" text="Descripción" />
-                  <TableColumn fx:id="colDate" prefWidth="115.0" text="Fecha de la venta" />
+                  <TableColumn fx:id="colIdSale" prefWidth="54.0" text="ID Venta" />
+                  <TableColumn fx:id="colIdEmployee" prefWidth="76.0" text="ID Empleado" />
+                  <TableColumn fx:id="colNameUser" prefWidth="156.0" text="Nombre usuario" />
+                  <TableColumn fx:id="colIdBranchOffice" prefWidth="69.0" text="ID sucursal" />
+                  <TableColumn fx:id="colNameBranchOffice" prefWidth="107.0" text="Nombre sucursal" />
+                  <TableColumn fx:id="colIdTotalSale" prefWidth="107.0" text="Total de la  venta" />
+                  <TableColumn fx:id="coldescription" prefWidth="285.0" text="Descripción" />
+                  <TableColumn fx:id="colDate" prefWidth="105.0" text="Fecha de la venta" />
                </columns>
                <VBox.margin>
                   <Insets left="20.0" right="20.0" />

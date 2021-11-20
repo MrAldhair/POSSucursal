@@ -84,6 +84,7 @@ public class PrincipalController implements Initializable {
         String username = txtUserName.getText();
         String password = txtPassword.getText();
         String typeEmployee = rbSelectOptionMain.getSelectionModel().getSelectedItem();
+         em.setUser(username);
 
         if (username.equals("")) {
             
@@ -135,7 +136,6 @@ public class PrincipalController implements Initializable {
                         try {
                             
                             App.setRoot("VistaEmpleado");
-                            em.setUser(username);
                             Alerts.alertInformation("Inicio de sesion", "Bienvenido: " + username);
                             
                         } catch (IOException e) {

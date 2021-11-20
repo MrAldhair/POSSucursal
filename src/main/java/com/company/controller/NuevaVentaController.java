@@ -106,8 +106,7 @@ public class NuevaVentaController implements Initializable{
                 new_sale.setDescription(this.txtSaleDescription.getText());
                 new_sale.setDate_sale(this.txtDate.getText());
                 new_sale.setId_branch_office(1);
-                new_sale.setId_employee(32);
-                //new_sale.setId_employee(userLogin());
+                new_sale.setId_employee(userLogin());
                 
                 ObjectMapper mapper = new ObjectMapper();
                 String json;
@@ -158,16 +157,22 @@ public class NuevaVentaController implements Initializable{
     }
     
     private int userLogin() throws SQLException {
-    //    conn = SQL.connectionDbH2();
+        
+        conn = SQL.connectionDbH2();
         sSQL = "SELECT idemployee FROM useremployee WHERE user=?";
-        int idUser = 32;
+        int idUser = 0;
         PreparedStatement preparedStatement = conn.prepareStatement(sSQL);
         preparedStatement.setString(1, name_employee.getUser());
         rs = preparedStatement.executeQuery();
         
         if(rs.next()){
-            //idUser = rs.getInt("idemployee");   
+            
+            idUser = rs.getInt("idemployee");  
+            
         }
-        return idUser;       
+        
+        return idUser;  
+        
     }
+    
 }

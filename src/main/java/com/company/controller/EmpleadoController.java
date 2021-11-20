@@ -231,7 +231,7 @@ public class EmpleadoController implements Initializable{
         conn = SQL.connectionDbH2();
         sSQL = "SELECT idemployee FROM useremployee WHERE user=?";
         
-        int idUser = 32;
+        int idUser = 0;
         
         PreparedStatement preparedStatement = conn.prepareStatement(sSQL);
         preparedStatement.setString(1, em.getUser());
