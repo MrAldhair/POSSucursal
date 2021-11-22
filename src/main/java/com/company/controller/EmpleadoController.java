@@ -46,8 +46,6 @@ public class EmpleadoController implements Initializable{
     @FXML private TextField txtDate;
     @FXML private ImageView imageMain;
     @FXML private TableView<?> tbSales;
-    @FXML private Button btnFilter;
-    @FXML private ComboBox<?> cbFilter;
     @FXML private Button btnNewSale;
     @FXML private Button btnSignOutEmployee;
     @FXML private TableColumn<Sale, Long> colIdSale;
@@ -55,6 +53,7 @@ public class EmpleadoController implements Initializable{
     @FXML private TableColumn<Sale, Double> colTotalSale;
     @FXML private TableColumn<Sale, String> colDescriptionSale;
     @FXML private TableColumn<Sale, String> colDateSale;
+    @FXML private TableColumn<Sale, String> colNameBranchOffice;
     @FXML private Label lblUserName;
     
     private ObservableList<Sale> listSales;
@@ -78,6 +77,7 @@ public class EmpleadoController implements Initializable{
     
     Employee name_employee = new Employee();
     
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -96,6 +96,8 @@ public class EmpleadoController implements Initializable{
         this.colTotalSale.setCellValueFactory(new PropertyValueFactory<>("total_sale"));
         this.colDescriptionSale.setCellValueFactory(new PropertyValueFactory<>("description"));
         this.colDateSale.setCellValueFactory(new PropertyValueFactory<>("date_sale"));
+        this.colNameBranchOffice.setCellValueFactory(new PropertyValueFactory<>("name_branch_office"));
+        
         
         listSales = (ObservableList<Sale>) tbSales.getItems();
         
@@ -117,7 +119,8 @@ public class EmpleadoController implements Initializable{
         
     }
 
-    @FXML private void newSale(ActionEvent event) {
+    @FXML 
+    private void newSale(ActionEvent event) {
         
         Object ev = event.getSource();
         
@@ -137,7 +140,8 @@ public class EmpleadoController implements Initializable{
  
     }
 
-    @FXML private void signOutEmployee(ActionEvent event) {
+    @FXML 
+    private void signOutEmployee(ActionEvent event) {
         
         Object ev = event.getSource();
         
@@ -209,8 +213,8 @@ public class EmpleadoController implements Initializable{
                 
                 if(row.getInt("id_employee") == userLogin()){
                     
-                    listSales.add(new Sale(row.getLong("id_sale"), row.getInt("id_employee"), row.getInt("id_branch_office"), row.getDouble("total_sale"), row.getString("description"), row.getString("date_sale")));
-                    
+                    listSales.add(new Sale(row.getLong("id_sale"), row.getInt("id_employee"), row.getLong("id_branch_office"), row.getString("name_branch_office"), row.getDouble("total_sale"), row.getString("description"), row.getString("date_sale"), row.getString("name_employee")));
+                
                 }
                 
             }
@@ -222,8 +226,7 @@ public class EmpleadoController implements Initializable{
                 e.printStackTrace();
 
         }
-             
-        
+                  
     }
     
     private int userLogin() throws SQLException {

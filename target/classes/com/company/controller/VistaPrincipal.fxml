@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.company.controller.PrincipalController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.company.controller.PrincipalController">
    <center>
       <VBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
@@ -82,6 +82,19 @@
                <VBox.margin>
                   <Insets />
                </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="10.0" layoutY="343.0" maxHeight="100.0" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="Sucursal:">
+                     <font>
+                        <Font name="Calibri Light" size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="90.0" />
+                     </HBox.margin>
+                  </Label>
+                  <ComboBox fx:id="rbSelectBranchOffice" prefHeight="50.0" prefWidth="200.0" promptText="Selecciona una sucursal" />
+               </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>

@@ -19,7 +19,7 @@ public class DataAndHour {
             TimerTask task = new TimerTask() {
                 @Override
                 public void run() {
-                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");// 
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");// 
                     LocalDateTime now = LocalDateTime.now();
                     txtdate.setText(dtf.format(now));
                 }

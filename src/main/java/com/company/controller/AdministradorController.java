@@ -61,19 +61,16 @@ public class AdministradorController implements Initializable {
     @FXML private TableColumn<Sale, Double> colIdTotalSale;
     @FXML private TableColumn<Sale, String> coldescription;
     @FXML private TableColumn<Sale, String> colDate;
-    @FXML private TableColumn<?, String> colNameUser;
-    @FXML private TableColumn<?, String> colNameBranchOffice;
+    @FXML private TableColumn<Sale, String> colNameUser;
+    @FXML private TableColumn<Sale, String> colNameBranchOffice;
     @FXML private Label lblNameUser;
     
     // Instancias la clase que hemos creado anteriormente
     private static ConnDBH2 SQL = new ConnDBH2();
-    
-     // Llamas al método que tiene la clase y te devuelve una conexión
+    // Llamas al método que tiene la clase y te devuelve una conexión
     private static Connection conn;
-    
     // Query que usarás para hacer lo que necesites
     private static String querySql = "";
-    
     // Obtener el resuldo de una consulta
     private ObservableList<Sale> listSales;
     private BufferedReader bufferedReader;
@@ -82,12 +79,11 @@ public class AdministradorController implements Initializable {
     private URL url;
     private ResultSet rs;
     private Double totalSales = 0.0;
+    private Integer id_user = 0;
 
     Alert alert = new Alert(Alert.AlertType.NONE);
     Employee name_employee = new Employee();
-    
-    
- 
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
@@ -100,6 +96,9 @@ public class AdministradorController implements Initializable {
         this.colIdTotalSale.setCellValueFactory(new PropertyValueFactory<>("total_sale"));
         this.coldescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         this.colDate.setCellValueFactory(new PropertyValueFactory<>("date_sale"));
+        this.colNameUser.setCellValueFactory(new PropertyValueFactory<>("name_employee"));
+        this.colNameBranchOffice.setCellValueFactory(new PropertyValueFactory<>("name_branch_office"));
+      
         
         listSales = tbSalesAdmin.getItems();
         cBoxUsers.setItems(FXCollections.observableArrayList(getData()));
@@ -117,22 +116,29 @@ public class AdministradorController implements Initializable {
             
             String selectedItem = cBoxUsers.getSelectionModel().getSelectedItem();
             url = new URL("http://localhost:9001/listar");
+            
             //realiza la conexion
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");            
             connection.connect();
         
-            if(connection.getResponseCode() == 200 && selectedItem!=null){
+            if(connection.getResponseCode() == 200 && selectedItem!=null) {
+                
                 System.out.println("Response: OK");
                 //obtiene respuesta
                 bufferedReader  = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 stringBuilder = new StringBuilder();
+                
                 while ((line = bufferedReader.readLine()) != null) {
+                    
                     stringBuilder.append(line);
+                    
                 }
 
                 JSONArray dataArray  = new JSONArray(stringBuilder.toString());
+                
                 this.tbSalesAdmin.getItems().removeAll(listSales);
+                
                 for(int i = 0 ; i < dataArray.length(); i++){
                     JSONObject row = dataArray.getJSONObject(i);
     //                if(row.getInt("id_employee") == 6){
@@ -141,18 +147,24 @@ public class AdministradorController implements Initializable {
                                 new Sale(
                                         row.getLong("id_sale"), 
                                         row.getInt("id_employee"), 
-                                        row.getInt("id_branch_office"), 
+                                        row.getLong("id_branch_office"),
+                                        row.getString("name_branch_office"),
                                         row.getDouble("total_sale"), 
                                         row.getString("description"), 
-                                        row.getString("date_sale")));
-                    }else{
-                          System.out.println("no hay datos registrados");
-                      }
+                                        row.getString("date_sale"),
+                                        row.getString("name_employee")));
+                    } else {
+                          
+                        System.out.println("no hay datos registrados");
+                    }
+                      
                 }
+                
             }
+            
         } catch (MalformedURLException e) {
             
-                e.printStackTrace();
+            e.printStackTrace();
                 
         }
         
@@ -219,52 +231,60 @@ public class AdministradorController implements Initializable {
             this.totalSales = 0.0;
             
             try {
-            url = new URL("http://localhost:9001/listar");
-            //realiza la conexion
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");            
-            connection.connect();
-            
-            if(connection.getResponseCode() == 200){
-                System.out.println("Response: OK");
-                //obtiene respuesta
-                bufferedReader  = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                stringBuilder = new StringBuilder();
-
-                while ((line = bufferedReader.readLine()) != null) {
-                    stringBuilder.append(line);
-                }
-
-                JSONArray dataArray  = new JSONArray(stringBuilder.toString());
-                tbSalesAdmin.getItems().removeAll(listSales);
-
-                for(int i = 0 ; i < dataArray.length(); i++){
-                    
-                    JSONObject row = dataArray.getJSONObject(i); 
-                    listSales.add(
-                            new Sale(
-                                    row.getLong("id_sale"),
-                                    row.getInt("id_employee"),
-                                    row.getInt("id_branch_office"),
-                                    row.getDouble("total_sale"),
-                                    row.getString("description"),
-                                    row.getString("date_sale")));
-                    
-                    totalSales += row.getDouble("total_sale");
-                }
-                this.txtTotalSales.setText(totalSales.toString());
-            }
-            } catch (MalformedURLException e) {
                 
-                    e.printStackTrace();
+                url = new URL("http://localhost:9001/listar");
+                //realiza la conexion
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");            
+                connection.connect();
+
+                if(connection.getResponseCode() == 200){
+                    System.out.println("Response: OK");
+
+                    //obtiene respuesta
+                    bufferedReader  = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    stringBuilder = new StringBuilder();
+
+                    while ((line = bufferedReader.readLine()) != null) {
+                        
+                        stringBuilder.append(line);
+                        
+                    }
+
+                    JSONArray dataArray  = new JSONArray(stringBuilder.toString());
+                    tbSalesAdmin.getItems().removeAll(listSales);
+
+                    for(int i = 0 ; i < dataArray.length(); i++) {
+
+                        JSONObject row = dataArray.getJSONObject(i); 
+                        listSales.add(
+                                new Sale(
+                                        row.getLong("id_sale"),
+                                        row.getInt("id_employee"),
+                                        row.getLong("id_branch_office"),
+                                        row.getString("name_branch_office"),
+                                        row.getDouble("total_sale"),
+                                        row.getString("description"),
+                                        row.getString("date_sale"),
+                                        row.getString("name_employee")));
+
+                        totalSales += row.getDouble("total_sale");
+                        id_user = row.getInt("id_employee");
+                        
+                    }
                     
+                this.txtTotalSales.setText(totalSales.toString());
+                
+                }    
+                } catch (MalformedURLException e) {
+
+                        e.printStackTrace();
+                }
             }
-            
-        }
         
     }
     
-     private List<String> getData(){
+    private List<String> getData(){
          
         conn = SQL.connectionDbH2();
         querySql = "SELECT user FROM useremployee";
@@ -290,6 +310,26 @@ public class AdministradorController implements Initializable {
             return null;
             
         }
+        
+    }
+    
+    
+    private String userLogin() throws SQLException {
+        
+        conn = SQL.connectionDbH2();
+        querySql = "SELECT user FROM useremployee WHERE idemployee=?";
+        String name_user = "";
+        PreparedStatement preparedStatement = conn.prepareStatement(querySql);
+        preparedStatement.setInt(1, id_user);
+        rs = preparedStatement.executeQuery();
+        
+        if(rs.next()){
+            
+            name_user = rs.getString("user");  
+            
+        }
+        
+        return name_user;  
         
     }
      
