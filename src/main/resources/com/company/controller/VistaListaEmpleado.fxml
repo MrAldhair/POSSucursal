@@ -43,7 +43,7 @@
                   <TableColumn fx:id="colUser" prefWidth="202.0" text="Usuario" />
                   <TableColumn fx:id="colPassword" minWidth="6.0" prefWidth="232.0" text="Contraseña" />
                   <TableColumn fx:id="colTypeUser" minWidth="6.0" prefWidth="209.0" text="Tipo de usuario" />
-                  <TableColumn fx:id="colBranch" prefWidth="189.0" text="Sucursal" />
+                  <TableColumn fx:id="colDate" prefWidth="189.0" text="Fecha de registro" />
                </columns>
                <VBox.margin>
                   <Insets left="20.0" right="20.0" />
