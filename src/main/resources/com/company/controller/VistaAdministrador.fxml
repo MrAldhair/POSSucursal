@@ -79,7 +79,7 @@
             </HBox>
             <HBox alignment="CENTER_RIGHT">
                <children>
-                  <ComboBox fx:id="cBoxUsers" prefHeight="39.0" prefWidth="163.0">
+                  <ComboBox fx:id="cBoxUsers" prefHeight="39.0" prefWidth="163.0" promptText="Seleccionar usuario">
                      <HBox.margin>
                         <Insets right="20.0" />
                      </HBox.margin>

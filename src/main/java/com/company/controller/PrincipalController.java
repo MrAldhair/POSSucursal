@@ -7,7 +7,6 @@ import Configurations.LoadImage;
 import ConnectionDB.ConnDBH2;
 import Models.BranchOffice;
 import Models.Employee;
-import Models.Sale;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,11 +17,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -31,7 +26,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -139,7 +133,7 @@ public class PrincipalController implements Initializable {
         else  {
             
             conn = SQL.connectionDbH2();
-            sSQL = "SELECT * FROM useremployee WHERE user=? AND password=? AND typeEmployee=?";
+            sSQL = "SELECT * FROM useremployee WHERE user=? AND password=? AND typeEmployee=? AND idbranch=?";
             
             try {
                 
@@ -148,6 +142,7 @@ public class PrincipalController implements Initializable {
                 pstm.setString(1, username);
                 pstm.setString(2, password);
                 pstm.setString(3, typeEmployee);
+                pstm.setInt(4,rbSelectBranchOffice.getSelectionModel().getSelectedIndex()+1);
                 rs = pstm.executeQuery();
                 
                 if (rs.next()) {

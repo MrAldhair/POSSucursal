@@ -5,8 +5,14 @@ import Configurations.Alerts;
 import Configurations.DataAndHour;
 import Configurations.LoadImage;
 import ConnectionDB.ConnDBH2;
+import Models.BranchOffice;
 import Models.Employee;
+import Models.Sale;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,6 +20,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -28,6 +36,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 
 public final class ListaEmpleadoController implements Initializable {
@@ -44,11 +54,13 @@ public final class ListaEmpleadoController implements Initializable {
     @FXML private TableColumn<Employee, String> colUser;
     @FXML private TableColumn<Employee, String> colPassword;
     @FXML private TableColumn<Employee, String> colTypeUser;
-    @FXML private TableColumn<Employee, String> colDate;
+    @FXML private TableColumn<BranchOffice, String> colBranch;
     @FXML private Label lblNameUser;
     
     // Lista de empleados para llenar la tabla
     private ObservableList<Employee> empleyees;
+    //lista de sucursales
+    private ObservableList<String> optionsBranchOffice;
     
     // Instancias la clase que hemos creado anteriormente
     private static ConnDBH2 SQL = new ConnDBH2();
@@ -66,19 +78,33 @@ public final class ListaEmpleadoController implements Initializable {
     Alert alert = new Alert(Alert.AlertType.NONE);
     
     Employee name_employee = new Employee();
+        // conexion API
+    private BufferedReader bufferedReader;
+    private StringBuilder stringBuilder;
+    private String line;        	
+    private URL url;
+
+    private String nameBranch;
     
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         DataAndHour.dateAndHour(this.txtDate);
+        try {
+            loadDataBranchOffice();
+        } catch (IOException ex) {
+            Logger.getLogger(ListaEmpleadoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         LoadImage.loadImageMain(this.imageMain);
         this.empleyees = FXCollections.observableArrayList();
+        this.optionsBranchOffice = FXCollections.observableArrayList();
         this.colIdEmploye.setCellValueFactory(new PropertyValueFactory("id"));
         this.colUser.setCellValueFactory(new PropertyValueFactory("user"));
         this.colPassword.setCellValueFactory(new PropertyValueFactory("password"));
         this.colTypeUser.setCellValueFactory(new PropertyValueFactory("typeEmployee"));
-        this.colDate.setCellValueFactory(new PropertyValueFactory("idBranch"));
- 
+        this.colBranch.setCellValueFactory(new PropertyValueFactory("idBranch"));
+        
         fillTable();    
         // Usuario que inicia sesion
         this.name_employee.setUser(PrincipalController.em.getUser());
@@ -161,8 +187,9 @@ public final class ListaEmpleadoController implements Initializable {
                         rs.getString("user"), 
                         rs.getString("password"), 
                         rs.getString("typeEmployee"), 
-                        rs.getInt("idBranch")));
+                        rs.getInt("idBranch")));       
             }
+            
             tableEmployees.setItems(empleyees);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -182,4 +209,46 @@ public final class ListaEmpleadoController implements Initializable {
             System.out.println(e.getMessage());
         }
     }
+    private void loadDataBranchOffice() throws IOException {
+
+        try {
+                // api para consumir los fatos
+                url = new URL("http://localhost:9001/ListBranchOffice");
+                //realiza la conexion
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");            
+                connection.connect();
+
+                if(connection.getResponseCode() == 200){
+                    System.out.println("Response: OK");
+
+                    //obtiene respuesta
+                    bufferedReader  = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    stringBuilder = new StringBuilder();
+
+                    while ((line = bufferedReader.readLine()) != null) {
+                        
+                        stringBuilder.append(line);
+                        
+                    }
+
+                    JSONArray dataArray  = new JSONArray(stringBuilder.toString());                 
+                    
+                    for(int i = 0 ; i < dataArray.length(); i++) {
+
+                        JSONObject row = dataArray.getJSONObject(i); 
+                        
+                        optionsBranchOffice.add(row.getString("name"));
+                    }
+                    
+                }    
+                
+            } catch (MalformedURLException e) {
+
+                    e.printStackTrace();
+            }
+        
+    }
+    
+
 }
