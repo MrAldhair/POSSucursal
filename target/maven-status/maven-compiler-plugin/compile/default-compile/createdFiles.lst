@@ -5,6 +5,7 @@ Configurations\Alerts.class
 com\company\controller\PrincipalController.class
 Configurations\LoadImage.class
 ConnectivityAPI\Connectivity.class
+Models\BranchOffice.class
 ConnectionDB\ConnDBH2.class
 Configurations\IdUser.class
 com\company\controller\AgregarEmpleadoController.class
