@@ -95,6 +95,25 @@
                         <Insets top="20.0" />
                     </VBox.margin>
                 </HBox>
+            <HBox layoutX="10.0" layoutY="212.0" prefHeight="40.0" prefWidth="395.0">
+               <children>
+                  <Label prefHeight="35.0" prefWidth="157.0" text="Sucursal">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Label>
+                  <ComboBox fx:id="rbSelectBranchOffice" prefHeight="32.0" prefWidth="226.0" promptText="Seleccionar Sucursal" />
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </HBox>
                 <HBox alignment="CENTER" prefHeight="40.0" prefWidth="395.0">
                     <children>
                         <RadioButton fx:id="radioAdmin" mnemonicParsing="false" prefHeight="33.0" prefWidth="157.0" text="Administrador">
@@ -125,7 +144,7 @@
                                 <Insets right="20.0" />
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="btnCancelarRegistro" mnemonicParsing="false" onAction="#switchToAdministrador" prefHeight="40.0" prefWidth="115.0" text="Cancelar">
+                        <Button fx:id="btnCancelarRegistro" mnemonicParsing="false" onAction="#switchToAdministrador" prefHeight="40.0" prefWidth="115.0" text="Regresar">
                             <font>
                                 <Font size="18.0" />
                             </font>
