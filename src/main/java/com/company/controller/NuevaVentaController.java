@@ -75,18 +75,26 @@ public class NuevaVentaController implements Initializable{
     private URL url;
     
     public NuevaVentaController() {
+        
         // Inicializar la lista
         this.listTextfield = new ArrayList<>();
+        
     }
     
     public boolean validateTextField() throws IOException {
+        
         try {
+            
             Double.parseDouble(this.txtTotal.getText());
+            
         } catch (NumberFormatException e) {
+            
             Alerts.alertWarning("Campos invalidos", "Ingresa solamente números en TOTAL");
             CleanTextfield.cleanAllTextfield(this.listTextfield);
             return false;
+            
         }
+        
         return true;
     }
     

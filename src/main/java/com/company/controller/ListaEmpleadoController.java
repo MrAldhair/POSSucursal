@@ -34,6 +34,7 @@ public final class ListaEmpleadoController implements Initializable {
 
     @FXML private Label lblDescription;
     @FXML private Label lblTitle;
+    @FXML private Label lblNameUser;
     @FXML private TableView<Employee> tableEmployees;
     @FXML private Button btnGenerateEmployee;
     @FXML private Button btnDelEmployee;
@@ -45,7 +46,7 @@ public final class ListaEmpleadoController implements Initializable {
     @FXML private TableColumn<Employee, String> colPassword;
     @FXML private TableColumn<Employee, String> colTypeUser;
     @FXML private TableColumn<Employee, String> colBranchName;
-    @FXML private Label lblNameUser;
+    
     
     // Lista de empleados para llenar la tabla
     private ObservableList<Employee> empleyees;
@@ -65,14 +66,17 @@ public final class ListaEmpleadoController implements Initializable {
     //Alerta
     Alert alert = new Alert(Alert.AlertType.NONE);
     
+    // Objeto que se utliza e varios metodos para obtener datos de otro clases
     Employee name_employee = new Employee();
 
     
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
         DataAndHour.dateAndHour(this.txtDate);
         LoadImage.loadImageMain(this.imageMain);
+        
         this.empleyees = FXCollections.observableArrayList();
         this.colIdEmploye.setCellValueFactory(new PropertyValueFactory("id"));
         this.colUser.setCellValueFactory(new PropertyValueFactory("user"));
@@ -81,6 +85,7 @@ public final class ListaEmpleadoController implements Initializable {
         this.colBranchName.setCellValueFactory(new PropertyValueFactory("branchName"));
  
         fillTable();    
+        
         // Usuario que inicia sesion
         this.name_employee.setUser(PrincipalController.em.getUser());
         this.lblNameUser.setText("Usuario: " + name_employee.getUser());
@@ -89,11 +94,17 @@ public final class ListaEmpleadoController implements Initializable {
     
     @FXML
     private void generateNewEmployee(ActionEvent event) {
+        
         Object ev = event.getSource();
+        
         if(ev.equals(this.btnGenerateEmployee)){
+            
             try {
-            App.setRoot("VistaAgregarEmpleado");
+                
+                App.setRoot("VistaAgregarEmpleado");
+            
             } catch (IOException e) {
+                
                 System.out.println("Error: " + e.getMessage());
             }
         }
@@ -101,18 +112,26 @@ public final class ListaEmpleadoController implements Initializable {
 
     @FXML
     private void deleteEmployee(ActionEvent event) {
+        
         Object ev = event.getSource();
+        
         if(ev.equals(this.btnDelEmployee)){
+            
             // Fila seleccionada
             Employee em = this.tableEmployees.getSelectionModel().getSelectedItem();
+            
             if(em != null ) {
+                
                 conn = SQL.connectionDbH2();
                 querySql = "DELETE FROM useremployee WHERE idEmployee = ?";
+                
                 try {
+                    
                     this.alert = new Alert(Alert.AlertType.CONFIRMATION);
                     this.alert.setTitle("Nuevo empleado");
                     this.alert.setContentText("¿Desea eliminar este usuario del sistema?");
                     this.alert.setHeaderText(null);
+                    
                     PreparedStatement preparedStatement = conn.prepareStatement(querySql);
                     preparedStatement.setString(1, em.getId().toString());
 
@@ -121,33 +140,50 @@ public final class ListaEmpleadoController implements Initializable {
 
                     // confirmacion de la alerta
                     if (action.get() == ButtonType.OK) {
+                        
                         preparedStatement.execute();
                         this.empleyees.remove(em);
                         this.tableEmployees.refresh();
                         Alerts.alertInformation("Eliminar empleado", "Elemento eliminado con exito");
+                        
                     } else {
+                        
                         preparedStatement.cancel();
                         System.out.println("no execute");
+                        
                     }
                 } catch (SQLException e) {
+                    
                     System.out.println(e.getMessage());
+                    
                 }
+                
             } else {
+                
                 Alerts.alertWarning("Eliminar empleado", "Debes seleccionar un elemento de la tabla apara poder eliminarlo");
             }        
         } 
     }
 
     @FXML
-    private void swichToAdministrador(ActionEvent event) {        
+    private void swichToAdministrador(ActionEvent event) {
+        
         Object ev = event.getSource();
+        
         if(ev.equals(this.btnReturn)){
+            
             try {
-            App.setRoot("VistaAdministrador");
+                
+                App.setRoot("VistaAdministrador");
+                
             } catch (IOException e) {
+                
                 System.out.println("Error: " + e.getMessage());
+                
             }
+            
         }
+        
     }
     
     public void fillTable(){
