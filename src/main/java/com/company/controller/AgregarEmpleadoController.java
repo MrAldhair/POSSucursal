@@ -127,7 +127,7 @@ public class AgregarEmpleadoController implements Initializable {
                 if (this.txtContrasena.getText().equals(this.txtContrasena2.getText())) { 
 
                     // Crear el query
-                    querySql = "INSERT INTO useremployee(user, password, typeEmployee, idBranch) VALUES(?,?,?,?)";
+                    querySql = "INSERT INTO useremployee(user, password, typeEmployee, branchName) VALUES(?,?,?,?)";
                     
                     try {
 
@@ -136,7 +136,7 @@ public class AgregarEmpleadoController implements Initializable {
                         PreparedStatement preparedStatement = conn.prepareStatement(querySql);
                         preparedStatement.setString(1, this.txtUsuario.getText());
                         preparedStatement.setString(2, this.txtContrasena.getText());
-                        preparedStatement.setInt(4, this.rbSelectBranchOffice.getSelectionModel().getSelectedIndex()+1);
+                        preparedStatement.setString(4, this.rbSelectBranchOffice.getSelectionModel().getSelectedItem());
                         
                         // Obtener el tipo de emplado (Administrador / Empleado)
                         if (this.radioAdmin.isSelected()) {

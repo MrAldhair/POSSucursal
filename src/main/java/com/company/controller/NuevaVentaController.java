@@ -83,7 +83,7 @@ public class NuevaVentaController implements Initializable{
         try {
             Double.parseDouble(this.txtTotal.getText());
         } catch (NumberFormatException e) {
-            System.out.println("ingresa solo numeros");
+            Alerts.alertWarning("Campos invalidos", "Ingresa solamente números en TOTAL");
             CleanTextfield.cleanAllTextfield(this.listTextfield);
             return false;
         }

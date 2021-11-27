@@ -44,7 +44,7 @@ public final class ListaEmpleadoController implements Initializable {
     @FXML private TableColumn<Employee, String> colUser;
     @FXML private TableColumn<Employee, String> colPassword;
     @FXML private TableColumn<Employee, String> colTypeUser;
-    @FXML private TableColumn<Employee, String> colDate;
+    @FXML private TableColumn<Employee, String> colBranchName;
     @FXML private Label lblNameUser;
     
     // Lista de empleados para llenar la tabla
@@ -66,6 +66,7 @@ public final class ListaEmpleadoController implements Initializable {
     Alert alert = new Alert(Alert.AlertType.NONE);
     
     Employee name_employee = new Employee();
+
     
 
     @Override
@@ -77,7 +78,7 @@ public final class ListaEmpleadoController implements Initializable {
         this.colUser.setCellValueFactory(new PropertyValueFactory("user"));
         this.colPassword.setCellValueFactory(new PropertyValueFactory("password"));
         this.colTypeUser.setCellValueFactory(new PropertyValueFactory("typeEmployee"));
-        this.colDate.setCellValueFactory(new PropertyValueFactory("idBranch"));
+        this.colBranchName.setCellValueFactory(new PropertyValueFactory("branchName"));
  
         fillTable();    
         // Usuario que inicia sesion
@@ -161,7 +162,7 @@ public final class ListaEmpleadoController implements Initializable {
                         rs.getString("user"), 
                         rs.getString("password"), 
                         rs.getString("typeEmployee"), 
-                        rs.getInt("idBranch")));
+                        rs.getString("branchName")));
             }
             tableEmployees.setItems(empleyees);
         } catch (SQLException e) {

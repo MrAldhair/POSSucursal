@@ -110,7 +110,7 @@ public class AdministradorController implements Initializable {
     }    
 
     @FXML
-    private void filterUsers(ActionEvent event) throws IOException {
+    private void filterUsers(ActionEvent event) throws IOException, SQLException {
         
         try { 
             
@@ -142,8 +142,9 @@ public class AdministradorController implements Initializable {
                 for(int i = 0 ; i < dataArray.length(); i++){
                     JSONObject row = dataArray.getJSONObject(i);
     //                if(row.getInt("id_employee") == 6){
-                      if(row.getInt("id_employee")== /*selectedItem*/ 32){
-                        listSales.add(
+                      //if(row.getInt("id_employee").equals(cBoxUsers.getSelectionModel().getSelectedItem())){
+                      if(row.getInt("id_employee")==userId()){  
+                      listSales.add(
                                 new Sale(
                                         row.getLong("id_sale"), 
                                         row.getInt("id_employee"), 
@@ -297,22 +298,20 @@ public class AdministradorController implements Initializable {
     }
     
     
-    private String userLogin() throws SQLException {
+    private Integer userId() throws SQLException {
         
         conn = SQL.connectionDbH2();
-        querySql = "SELECT user FROM useremployee WHERE idemployee=?";
-        String name_user = "";
+        querySql = "SELECT idemployee FROM useremployee WHERE user=?";
+        int idEmployee=0;
+        String name_user = cBoxUsers.getSelectionModel().getSelectedItem();
         PreparedStatement preparedStatement = conn.prepareStatement(querySql);
-        preparedStatement.setInt(1, id_user);
+        preparedStatement.setString(1, name_user);
         rs = preparedStatement.executeQuery();
-        
         if(rs.next()){
-            
-            name_user = rs.getString("user");  
-            
+            idEmployee = rs.getInt("idemployee");
         }
         
-        return name_user;  
+        return idEmployee;  
         
     }
      

@@ -133,7 +133,7 @@ public class PrincipalController implements Initializable {
         else  {
             
             conn = SQL.connectionDbH2();
-            sSQL = "SELECT * FROM useremployee WHERE user=? AND password=? AND typeEmployee=? AND idbranch=?";
+            sSQL = "SELECT * FROM useremployee WHERE user=? AND password=? AND typeEmployee=? AND branchName=?";
             
             try {
                 
@@ -142,7 +142,7 @@ public class PrincipalController implements Initializable {
                 pstm.setString(1, username);
                 pstm.setString(2, password);
                 pstm.setString(3, typeEmployee);
-                pstm.setInt(4,rbSelectBranchOffice.getSelectionModel().getSelectedIndex()+1);
+                pstm.setString(4,rbSelectBranchOffice.getSelectionModel().getSelectedItem());
                 rs = pstm.executeQuery();
                 
                 if (rs.next()) {

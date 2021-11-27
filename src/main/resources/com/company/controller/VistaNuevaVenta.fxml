@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.company.controller.NuevaVentaController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.company.controller.NuevaVentaController">
    <top>
       <HBox prefHeight="165.0" style="-fx-background-color: #ed7d00;" BorderPane.alignment="CENTER">
          <children>
@@ -169,7 +169,7 @@
                         <Font name="Calibri Light" size="18.0" />
                      </font>
                   </Button>
-                  <Button fx:id="btnReturnEmployeeSale" mnemonicParsing="false" onAction="#switchToEmployee" prefHeight="50.0" prefWidth="120.0" text="Cancelar">
+                  <Button fx:id="btnReturnEmployeeSale" mnemonicParsing="false" onAction="#switchToEmployee" prefHeight="50.0" prefWidth="120.0" text="Regresar">
                      <font>
                         <Font name="Calibri Light" size="18.0" />
                      </font>
