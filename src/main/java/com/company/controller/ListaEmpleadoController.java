@@ -187,11 +187,15 @@ public final class ListaEmpleadoController implements Initializable {
     }
     
     public void fillTable(){
+        
         conn = SQL.connectionDbH2();
         querySql = "SELECT * FROM useremployee";
+        
         try {
+            
             PreparedStatement pstm = conn.prepareStatement(querySql);
             rs = pstm.executeQuery();
+            
             while(rs.next()){
                 empleyees.add(new Employee(
                         rs.getInt("idEmployee"), 
@@ -200,23 +204,41 @@ public final class ListaEmpleadoController implements Initializable {
                         rs.getString("typeEmployee"), 
                         rs.getString("branchName")));
             }
+            
             tableEmployees.setItems(empleyees);
+            
         } catch (SQLException e) {
+            
             System.out.println(e.getMessage());
+            
         }
+        
     }
-    public void listUsers(){
+    
+    public void listUsers() {
+        
         conn = SQL.connectionDbH2();
         querySql = "SELECT user FROM useremployee";
+        
         try {
+            
             PreparedStatement pstm = conn.prepareStatement(querySql);
             rs = pstm.executeQuery();
+            
             while(rs.next()){
+                
                 empleyees.add(new Employee(rs.getString("user")));
+                
             }
+            
             tableEmployees.setItems(empleyees);
+            
         } catch (SQLException e) {
+            
             System.out.println(e.getMessage());
+            
         }
+        
     }
+    
 }

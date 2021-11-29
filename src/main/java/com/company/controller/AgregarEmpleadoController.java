@@ -14,6 +14,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,19 +55,22 @@ public class AgregarEmpleadoController implements Initializable {
     @FXML private Button btnCancelarRegistro;
     @FXML private Label lblNameUser;
     @FXML private ComboBox<String> rbSelectBranchOffice;
+    
     // Agrupar radio buttons
     ToggleGroup tg = new ToggleGroup(); 
 
     // Generar la conexion
     private static final ConnDBH2 sql = new ConnDBH2();
     private static final Connection conn = sql.connectionDbH2(); // Query
-    private static String querySql = "";
+    private static String querySqlInsert = "";
+    private static String querySqlSelect = "";
+    private ResultSet rs;
     
     // Declaracion de la alerta
     Alert alert = new Alert(Alert.AlertType.NONE);
     
     // Lista de textfield
-    private List<TextField> listTextfield;
+    private List<TextField> listTextfield = new ArrayList<>();
     private ObservableList<String> optionsBranchOffice = FXCollections.observableArrayList();
     
     Employee name_employee = new Employee();
@@ -77,20 +81,19 @@ public class AgregarEmpleadoController implements Initializable {
     private String line;        	
     private URL url;
     
-    public AgregarEmpleadoController() {
-        
-        // Inicializar la lista
-        this.listTextfield = new ArrayList<>();
-        
-    }
-
     @Override
-    public void initialize(URL url, ResourceBundle rb) { 
+    public void initialize(URL url, ResourceBundle rb) {
+        
         try {
+            
             loadDataBranchOffice();
+            
         } catch (IOException ex) {
+            
             Logger.getLogger(AgregarEmpleadoController.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
+        
         // Cargar la hora
         DataAndHour.dateAndHour(this.txtDate);
         
@@ -127,13 +130,13 @@ public class AgregarEmpleadoController implements Initializable {
                 if (this.txtContrasena.getText().equals(this.txtContrasena2.getText())) { 
 
                     // Crear el query
-                    querySql = "INSERT INTO useremployee(user, password, typeEmployee, branchName) VALUES(?,?,?,?)";
+                    querySqlInsert = "INSERT INTO useremployee(user, password, typeEmployee, branchName) VALUES(?,?,?,?)";
                     
                     try {
 
                         //PreparedStatment
                         //bucar para que sirve esto
-                        PreparedStatement preparedStatement = conn.prepareStatement(querySql);
+                        PreparedStatement preparedStatement = conn.prepareStatement(querySqlInsert);
                         preparedStatement.setString(1, this.txtUsuario.getText());
                         preparedStatement.setString(2, this.txtContrasena.getText());
                         preparedStatement.setString(4, this.rbSelectBranchOffice.getSelectionModel().getSelectedItem());
@@ -160,15 +163,25 @@ public class AgregarEmpleadoController implements Initializable {
                         
                         // confirmacion de la alerta
                         if (action.get() == ButtonType.OK) {
-                            
-                            Alerts.alertInformation("Nuevo empleado", "¡Usuario agregado con exito!"); 
-                            
-                            // Ejecutar el query
-                            preparedStatement.execute();
-                            
-                            // Limpiar los campos
-                            CleanTextfield.cleanAllTextfield(this.listTextfield);
-                            this.radioAdmin.setSelected(true);
+                           
+                            // Validar si el usuario existe en la base de datos (h2)
+                            if(!this.txtUsuario.getText().equals(userNameQuery(this.txtUsuario.getText()))) {
+
+                                // Ejecutar el query
+                                preparedStatement.execute();
+                                Alerts.alertInformation("Nuevo empleado", "¡Usuario agregado con exito!");
+                                // Limpiar los campos
+                                CleanTextfield.cleanAllTextfield(this.listTextfield);
+                                this.radioAdmin.setSelected(true);
+                                
+
+                            } else {
+
+                                // Cancelar la ejecucion del query
+                                preparedStatement.cancel();
+                                Alerts.alertWarning("Nuevo empleado", "El nombre: " + this.txtUsuario.getText() + " ya se encuentra registrado en el sistema.");
+
+                            }                              
                             
                         } else {
                             
@@ -223,41 +236,63 @@ public class AgregarEmpleadoController implements Initializable {
     private void loadDataBranchOffice() throws IOException {
 
         try {
-                // api para consumir los fatos
-                url = new URL("http://localhost:9001/ListBranchOffice");
-                //realiza la conexion
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("GET");            
-                connection.connect();
+            // api para consumir los fatos
+            url = new URL("http://localhost:9001/ListBranchOffice");
+            //realiza la conexion
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");            
+            connection.connect();
 
-                if(connection.getResponseCode() == 200){
-                    System.out.println("Response: OK");
+            if(connection.getResponseCode() == 200){
+                System.out.println("Response: OK");
 
-                    //obtiene respuesta
-                    bufferedReader  = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                    stringBuilder = new StringBuilder();
+                //obtiene respuesta
+                bufferedReader  = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                stringBuilder = new StringBuilder();
 
-                    while ((line = bufferedReader.readLine()) != null) {
-                        
-                        stringBuilder.append(line);
-                        
-                    }
+                while ((line = bufferedReader.readLine()) != null) {
 
-                    JSONArray dataArray  = new JSONArray(stringBuilder.toString());                 
-                    
-                    for(int i = 0 ; i < dataArray.length(); i++) {
+                    stringBuilder.append(line);
 
-                        JSONObject row = dataArray.getJSONObject(i); 
-                        
-                        optionsBranchOffice.add(row.getString("name"));
-                        System.out.println();
-                    }
-                    
-                }    
-                
-            } catch (MalformedURLException e) {
+                }
 
-                    e.printStackTrace();
-            }
+                JSONArray dataArray  = new JSONArray(stringBuilder.toString());                 
+
+                for(int i = 0 ; i < dataArray.length(); i++) {
+
+                    JSONObject row = dataArray.getJSONObject(i); 
+
+                    optionsBranchOffice.add(row.getString("name"));
+                    System.out.println();
+                }
+
+            }    
+
+        } catch (MalformedURLException e) {
+
+                e.printStackTrace();
+        }
     }
+    
+    private String userNameQuery(String userName) throws SQLException {
+        
+        String name = "";
+        
+        // Comprobar si el usuario existe en la base de datos
+        querySqlSelect = "SELECT user FROM useremployee WHERE user=?";
+
+        PreparedStatement preparedStatement = conn.prepareStatement(querySqlSelect);
+        preparedStatement.setString(1, userName);
+        rs = preparedStatement.executeQuery();
+        
+        while(rs.next()) {
+            
+            name = rs.getString("user");
+ 
+        }
+        
+        return name;
+        
+    } 
+           
 }

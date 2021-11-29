@@ -112,70 +112,82 @@ public class AdministradorController implements Initializable {
     @FXML
     private void filterUsers(ActionEvent event) throws IOException, SQLException {
         
-        try { 
-            
-            String selectedItem = cBoxUsers.getSelectionModel().getSelectedItem();
-            url = new URL("http://localhost:9001/listar");
-            
-            //realiza la conexion
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");            
-            connection.connect();
+        Object ev = event.getSource();
         
-            if(connection.getResponseCode() == 200 && selectedItem!=null) {
-                
-                System.out.println("Response: OK");
-                //obtiene respuesta
-                bufferedReader  = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                stringBuilder = new StringBuilder();
-                
-                while ((line = bufferedReader.readLine()) != null) {
-                    
-                    stringBuilder.append(line);
-                    
+        if(ev.equals(this.btnFilterUsers)){
+        
+            try { 
+            
+                String selectedItem = cBoxUsers.getSelectionModel().getSelectedItem();
+                url = new URL("http://localhost:9001/listar");
+
+                //realiza la conexion
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");            
+                connection.connect();
+
+                if(connection.getResponseCode() == 200 && selectedItem != null) {
+
+                    System.out.println("Response: OK");
+                    //obtiene respuesta
+                    bufferedReader  = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    stringBuilder = new StringBuilder();
+
+                    while ((line = bufferedReader.readLine()) != null) {
+
+                        stringBuilder.append(line);
+
+                    }
+
+                    JSONArray dataArray  = new JSONArray(stringBuilder.toString());
+
+                    this.tbSalesAdmin.getItems().removeAll(listSales);
+
+                    for(int i = 0 ; i < dataArray.length(); i++){
+
+                        JSONObject row = dataArray.getJSONObject(i);
+
+                          if(row.getInt("id_employee") == getUserId()){  
+                          listSales.add(
+                                    new Sale(
+                                            row.getLong("id_sale"), 
+                                            row.getInt("id_employee"), 
+                                            row.getLong("id_branch_office"),
+                                            row.getString("name_branch_office"),
+                                            row.getDouble("total_sale"), 
+                                            row.getString("description"), 
+                                            row.getString("date_sale"),
+                                            row.getString("name_employee")));
+                        } else {
+
+                              // Me muestra este mensaje 2 veces, encotrar el porque
+                              Alerts.alertWarning("Filtrar ventas por usuario", "Este usuario no tiene ventas registradas");
+
+                        }
+
+                    }
+
                 }
 
-                JSONArray dataArray  = new JSONArray(stringBuilder.toString());
-                
-                this.tbSalesAdmin.getItems().removeAll(listSales);
-                
-                for(int i = 0 ; i < dataArray.length(); i++){
-                    JSONObject row = dataArray.getJSONObject(i);
-    //                if(row.getInt("id_employee") == 6){
-                      //if(row.getInt("id_employee").equals(cBoxUsers.getSelectionModel().getSelectedItem())){
-                      if(row.getInt("id_employee")==userId()){  
-                      listSales.add(
-                                new Sale(
-                                        row.getLong("id_sale"), 
-                                        row.getInt("id_employee"), 
-                                        row.getLong("id_branch_office"),
-                                        row.getString("name_branch_office"),
-                                        row.getDouble("total_sale"), 
-                                        row.getString("description"), 
-                                        row.getString("date_sale"),
-                                        row.getString("name_employee")));
-                    } else {
-                          
-                        System.out.println("no hay datos registrados");
-                    }
-                      
-                }
-                
+            } catch (MalformedURLException e) {
+
+                e.printStackTrace();
+
             }
             
-        } catch (MalformedURLException e) {
-            
-            e.printStackTrace();
-                
-        }
+        }   
         
     }
 
     @FXML
     private void signOutAdmin(ActionEvent event) {
+        
         Object ev = event.getSource();
+        
         if(ev.equals(this.btnSignOutAdmin)){
+            
             try {
+                
                 this.alert = new Alert(Alert.AlertType.CONFIRMATION);
                 this.alert.setTitle("Cerrar sesión");
                 this.alert.setContentText("¿Esta seguro de salir?");
@@ -187,7 +199,9 @@ public class AdministradorController implements Initializable {
                 if (action.get() == ButtonType.OK) {
                     
                     App.setRoot("VistaPrincipal");
+                    
                 } else {
+                    
                     Alerts.alertInformation("Cerrar sesión", "Puede seguir trabajando...");
                     
                 }            
@@ -202,17 +216,26 @@ public class AdministradorController implements Initializable {
 
     @FXML
     private void addModUser(ActionEvent event) {
+        
         try {
+            
             App.setRoot("VistaListaEmpleado");
+            
         } catch (IOException e) {
+            
             System.out.println("Error: " + e.getMessage());
+            
         }
+        
     }
 
     @FXML
     private void loadDataApi(ActionEvent event) throws IOException {
+        
         Object ev = event.getSource();
+        
         if(ev.equals(this.btnLoadJson)){
+            
             this.totalSales = 0.0;
             
             try {
@@ -298,16 +321,20 @@ public class AdministradorController implements Initializable {
     }
     
     
-    private Integer userId() throws SQLException {
+    private Integer getUserId() throws SQLException {
         
         conn = SQL.connectionDbH2();
         querySql = "SELECT idemployee FROM useremployee WHERE user=?";
         int idEmployee=0;
+        
         String name_user = cBoxUsers.getSelectionModel().getSelectedItem();
         PreparedStatement preparedStatement = conn.prepareStatement(querySql);
         preparedStatement.setString(1, name_user);
+        
         rs = preparedStatement.executeQuery();
+        
         if(rs.next()){
+            
             idEmployee = rs.getInt("idemployee");
         }
         
