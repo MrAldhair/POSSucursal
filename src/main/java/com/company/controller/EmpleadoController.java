@@ -213,8 +213,7 @@ public class EmpleadoController implements Initializable{
                 
                 if(row.getInt("id_employee") == userLogin()){
                     
-                    listSales.add(new Sale(row.getLong("id_sale"), row.getInt("id_employee"), row.getLong("id_branch_office"), row.getString("name_branch_office"), row.getDouble("total_sale"), row.getString("description"), row.getString("date_sale"), row.getString("name_employee")));
-                
+                    listSales.add(new Sale(row.getLong("id_sale"), row.getInt("id_employee"), row.getLong("id_branch_office"), row.getString("name_branch_office"), row.getDouble("total_sale"), row.getString("description"), row.getString("date_sale"), row.getString("name_employee"),row.getString("folio")));                
                 }
                 
             }

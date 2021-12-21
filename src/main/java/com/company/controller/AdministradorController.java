@@ -157,7 +157,9 @@ public class AdministradorController implements Initializable {
                                             row.getDouble("total_sale"), 
                                             row.getString("description"), 
                                             row.getString("date_sale"),
-                                            row.getString("name_employee")));
+                                            row.getString("name_employee"),
+                                            row.getString("folio")));
+                          
                         } else {
 
                               // Me muestra este mensaje 2 veces, encotrar el porque
@@ -274,7 +276,8 @@ public class AdministradorController implements Initializable {
                                         row.getDouble("total_sale"),
                                         row.getString("description"),
                                         row.getString("date_sale"),
-                                        row.getString("name_employee")));
+                                        row.getString("name_employee"),
+                                        row.getString("folio")));
 
                         totalSales += row.getDouble("total_sale");
                         id_user = row.getInt("id_employee");

@@ -127,7 +127,7 @@ public class NuevaVentaController implements Initializable{
         if(ev.equals(this.btnGenerateSale)){
             
             if(validateTextField() == true && !this.txtDate.getText().isEmpty() && !this.txtSaleDescription.getText().isEmpty()) {
-                
+                String folio ="";
                 Sale new_sale = new Sale();
                 new_sale.setTotal_sale(Double.parseDouble(this.txtTotal.getText()));
                 new_sale.setDescription(this.txtSaleDescription.getText());
@@ -137,8 +137,14 @@ public class NuevaVentaController implements Initializable{
                 new_sale.setName_branch_office(new_branch_office.getName());
                 new_sale.setId_employee(userLogin());
                 new_sale.setName_employee(PrincipalController.em.getUser());
-                
-                
+                new_sale.setFolio( 
+                        "sucursal: "+new_sale.getId_branch_office().toString()+" - "+
+                       "No. Empleado: "+ new_sale.getId_employee().toString()+" - "+
+                       "Empleado: "+new_sale.getName_employee()+" - "+
+                       "Fecha: "+new_sale.getDate_sale()+" - "+
+                       "Total: "+new_sale.getTotal_sale().toString());
+                        
+                System.out.println(folio);
                 ObjectMapper mapper = new ObjectMapper();
                 String json;
                 Response response;
