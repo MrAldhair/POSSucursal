@@ -40,6 +40,8 @@ import javafx.scene.image.ImageView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+
+
 public class NuevaVentaController implements Initializable{
 
     @FXML private Label lblTitle;
@@ -137,8 +139,7 @@ public class NuevaVentaController implements Initializable{
                 new_sale.setName_branch_office(new_branch_office.getName());
                 new_sale.setId_employee(userLogin());
                 new_sale.setName_employee(PrincipalController.em.getUser());
-                
-                
+
                 ObjectMapper mapper = new ObjectMapper();
                 String json;
                 Response response;
@@ -155,15 +156,16 @@ public class NuevaVentaController implements Initializable{
 
                     // confirmacion de la alerta
                     if (action.get() == ButtonType.OK) {
-
+                        
                         //Enviar datos de venta
                         json = mapper.writeValueAsString(new_sale);
                         response = RequestApiSales.doPostRequest(json, "http://localhost:9001/crear");
                         Alerts.alertInformation("Generación de venta", "Nueva venta generada con exito");
-                        System.out.println(this.txtDate.getText());
+                        //System.out.println(this.txtDate.getText());
 
                         // Limpiar los campos
                         CleanTextfield.cleanAllTextfield(this.listTextfield);
+                        
                         
                     } else {
                         
@@ -229,7 +231,7 @@ public class NuevaVentaController implements Initializable{
         Long id_branch_office = null;
         
         try {
-                // api para consumir los fatos
+                // api para consultar las sucursales disponibles
                 url = new URL("http://localhost:9001/ListBranchOffice");
                 //realiza la conexion
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();

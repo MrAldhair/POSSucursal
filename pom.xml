@@ -77,6 +77,38 @@
             <version>1.0-SNAPSHOT</version>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>5.3.13</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jms</artifactId>
+            <version>5.3.13</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.jms</groupId>
+            <artifactId>jakarta.jms-api</artifactId>
+            <version>2.0.3</version>
+            <type>jar</type>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.3.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+            <type>jar</type>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
