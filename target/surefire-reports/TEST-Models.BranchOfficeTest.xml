@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite tests="18" failures="18" name="Models.BranchOfficeTest" time="0.02" errors="0" skipped="0">
+  <properties>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="java.vm.version" value="11.0.12+7-LTS"/>
+    <property name="sun.boot.library.path" value="C:\Users\e-emgarza\.jdks\azul-11.0.12\bin"/>
+    <property name="user.country.format" value="419"/>
+    <property name="jdk.vendor.version" value="Zulu11.50+19-CA"/>
+    <property name="maven.multiModuleProjectDirectory" value="C:\Users\e-emgarza\OneDrive - NEORIS\Documents\escuela\POSSucursal"/>
+    <property name="java.vm.vendor" value="Azul Systems, Inc."/>
+    <property name="java.vendor.url" value="http://www.azul.com/"/>
+    <property name="guice.disable.misplaced.annotation.check" value="true"/>
+    <property name="path.separator" value=";"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="user.script" value=""/>
+    <property name="user.country" value="US"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="user.dir" value="C:\Users\e-emgarza\OneDrive - NEORIS\Documents\escuela\POSSucursal"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="java.runtime.version" value="11.0.12+7-LTS"/>
+    <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.io.tmpdir" value="C:\Users\E-EMGA~1\AppData\Local\Temp\"/>
+    <property name="line.separator" value="
+"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="user.variant" value=""/>
+    <property name="os.name" value="Windows 10"/>
+    <property name="maven.ext.class.path" value="C:\Program Files\NetBeans-12.0\netbeans\java\maven-nblib\netbeans-eventspy.jar"/>
+    <property name="classworlds.conf" value="C:\Program Files\NetBeans-12.0\netbeans\java\maven\bin\..\bin\m2.conf"/>
+    <property name="sun.jnu.encoding" value="Cp1252"/>
+    <property name="java.library.path" value="C:\Users\e-emgarza\.jdks\azul-11.0.12\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Users\e-emgarza\.jdks\azul-11.0.12\bin;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\nodejs\;C:\maven\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\150\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\150\DTS\Binn\;C:\Program Files\Azure Data Studio\bin;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\Git\cmd;C:\Users\e-emgarza\.jdks\azul-11.0.12\bin;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\e-emgarza\AppData\Local\Microsoft\WindowsApps;C:\Users\e-emgarza\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\e-emgarza\AppData\Roaming\npm;C:\Users\e-emgarza\AppData\Local\gitkraken\bin;C:\Program Files\Azure Data Studio\bin;."/>
+    <property name="maven.conf" value="C:\Program Files\NetBeans-12.0\netbeans\java\maven\bin\../conf"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="java.class.version" value="55.0"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="os.version" value="10.0"/>
+    <property name="library.jansi.path" value="C:\Program Files\NetBeans-12.0\netbeans\java\maven\bin\..\lib\jansi-native"/>
+    <property name="user.home" value="C:\Users\e-emgarza"/>
+    <property name="user.timezone" value="America/Mexico_City"/>
+    <property name="java.awt.printerjob" value="sun.awt.windows.WPrinterJob"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.specification.version" value="11"/>
+    <property name="user.name" value="e-emgarza"/>
+    <property name="java.class.path" value="C:\Program Files\NetBeans-12.0\netbeans\java\maven\bin\..\boot\plexus-classworlds-2.6.0.jar"/>
+    <property name="java.vm.specification.version" value="11"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -Dmaven.ext.class.path=C:\Program Files\NetBeans-12.0\netbeans\java\maven-nblib\netbeans-eventspy.jar -Dfile.encoding=UTF-8 clean install"/>
+    <property name="java.home" value="C:\Users\e-emgarza\.jdks\azul-11.0.12"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="user.language.format" value="es"/>
+    <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
+    <property name="java.vm.info" value="mixed mode"/>
+    <property name="java.version" value="11.0.12"/>
+    <property name="java.vendor" value="Azul Systems, Inc."/>
+    <property name="maven.home" value="C:\Program Files\NetBeans-12.0\netbeans\java\maven\bin\.."/>
+    <property name="file.separator" value="\"/>
+    <property name="java.version.date" value="2021-07-20"/>
+    <property name="java.vendor.url.bug" value="http://www.azul.com/support/"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="java.vendor.version" value="Zulu11.50+19-CA"/>
+    <property name="sun.desktop" value="windows"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+  </properties>
+  <testcase classname="Models.BranchOfficeTest" name="Models.BranchOfficeTest.testGetId_branch_office" time="0.005">
+    <failure message="The test case is a prototype." type="java.lang.AssertionError">java.lang.AssertionError: The test case is a prototype.
+	at org.junit.Assert.fail(Assert.java:89)
+	at Models.BranchOfficeTest.testGetId_branch_office(BranchOfficeTest.java:51)
+</failure>
+    <system-out>getId_branch_office
+</system-out>
+  </testcase>
+  <testcase classname="Models.BranchOfficeTest" name="Models.BranchOfficeTest.testSetId_branch_office" time="0">
+    <failure message="The test case is a prototype." type="java.lang.AssertionError">java.lang.AssertionError: The test case is a prototype.
+	at org.junit.Assert.fail(Assert.java:89)
+	at Models.BranchOfficeTest.testSetId_branch_office(BranchOfficeTest.java:148)
+</failure>
+    <system-out>setId_branch_office
+</system-out>
+  </testcase>
+  <testcase classname="Models.BranchOfficeTest" name="Models.BranchOfficeTest.testGetName" time="0.001">
+    <failure message="expected:&lt;&gt; but was:&lt;null&gt;" type="java.lang.AssertionError">java.lang.AssertionError: expected:&lt;&gt; but was:&lt;null&gt;
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.failNotEquals(Assert.java:835)
+	at org.junit.Assert.assertEquals(Assert.java:120)
+	at org.junit.Assert.assertEquals(Assert.java:146)
+	at Models.BranchOfficeTest.testGetName(BranchOfficeTest.java:63)
+</failure>
+    <system-out>getName
+</system-out>
+  </testcase>
+  <testcase classname="Models.BranchOfficeTest" name="Models.BranchOfficeTest.testGetZip_code" time="0">
+    <failure message="The test case is a prototype." type="java.lang.AssertionError">java.lang.AssertionError: The test case is a prototype.
+	at org.junit.Assert.fail(Assert.java:89)
+	at Models.BranchOfficeTest.testGetZip_code(BranchOfficeTest.java:135)
+</failure>
+    <system-out>getZip_code
+</system-out>
+  </testcase>
+  <testcase classname="Models.BranchOfficeTest" name="Models.BranchOfficeTest.testGetCity" time="0">
+    <failure message="expected:&lt;&gt; but was:&lt;null&gt;" type="java.lang.AssertionError">java.lang.AssertionError: expected:&lt;&gt; but was:&lt;null&gt;
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.failNotEquals(Assert.java:835)
+	at org.junit.Assert.assertEquals(Assert.java:120)
+	at org.junit.Assert.assertEquals(Assert.java:146)
+	at Models.BranchOfficeTest.testGetCity(BranchOfficeTest.java:91)
+</failure>
+    <system-out>getCity
+</system-out>
+  </testcase>
+  <testcase classname="Models.BranchOfficeTest" name="Models.BranchOfficeTest.testSetStreet" time="0.001">
+    <failure message="The test case is a prototype." type="java.lang.AssertionError">java.lang.AssertionError: The test case is a prototype.
+	at org.junit.Assert.fail(Assert.java:89)
+	at Models.BranchOfficeTest.testSetStreet(BranchOfficeTest.java:200)
+</failure>
+    <system-out>setStreet
+</system-out>
+  </testcase>
+  <testcase classname="Models.BranchOfficeTest" name="Models.BranchOfficeTest.testSetName" time="0">
+    <failure message="The test case is a prototype." type="java.lang.AssertionError">java.lang.AssertionError: The test case is a prototype.
+	at org.junit.Assert.fail(Assert.java:89)
+	at Models.BranchOfficeTest.testSetName(BranchOfficeTest.java:161)
+</failure>
+    <system-out>setName
+</system-out>
+  </testcase>
+  <testcase classname="Models.BranchOfficeTest" name="Models.BranchOfficeTest.testSetState" time="0.001">
+    <failure message="The test case is a prototype." type="java.lang.AssertionError">java.lang.AssertionError: The test case is a prototype.
+	at org.junit.Assert.fail(Assert.java:89)
+	at Models.BranchOfficeTest.testSetState(BranchOfficeTest.java:174)
+</failure>
+    <system-out>setState
+</system-out>
+  </testcase>
+  <testcase classname="Models.BranchOfficeTest" name="Models.BranchOfficeTest.testGetState" time="0">
+    <failure message="expected:&lt;&gt; but was:&lt;null&gt;" type="java.lang.AssertionError">java.lang.AssertionError: expected:&lt;&gt; but was:&lt;null&gt;
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.failNotEquals(Assert.java:835)
+	at org.junit.Assert.assertEquals(Assert.java:120)
+	at org.junit.Assert.assertEquals(Assert.java:146)
+	at Models.BranchOfficeTest.testGetState(BranchOfficeTest.java:77)
+</failure>
+    <system-out>getState
+</system-out>
+  </testcase>
+  <testcase classname="Models.BranchOfficeTest" name="Models.BranchOfficeTest.testToString" time="0.002">
+    <failure message="expected:&lt;[]&gt; but was:&lt;[BranchOffice(id_branch_office=0, name=null, state=null, city=null, street=null, number=null, zip_code=null)]&gt;" type="org.junit.ComparisonFailure">org.junit.ComparisonFailure: expected:&lt;[]&gt; but was:&lt;[BranchOffice(id_branch_office=0, name=null, state=null, city=null, street=null, number=null, zip_code=null)]&gt;
+	at org.junit.Assert.assertEquals(Assert.java:117)
+	at org.junit.Assert.assertEquals(Assert.java:146)
+	at Models.BranchOfficeTest.testToString(BranchOfficeTest.java:282)
+</failure>
+    <system-out>toString
+</system-out>
+  </testcase>
+  <testcase classname="Models.BranchOfficeTest" name="Models.BranchOfficeTest.testGetStreet" time="0.001">
+    <failure message="expected:&lt;&gt; but was:&lt;null&gt;" type="java.lang.AssertionError">java.lang.AssertionError: expected:&lt;&gt; but was:&lt;null&gt;
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.failNotEquals(Assert.java:835)
+	at org.junit.Assert.assertEquals(Assert.java:120)
+	at org.junit.Assert.assertEquals(Assert.java:146)
+	at Models.BranchOfficeTest.testGetStreet(BranchOfficeTest.java:105)
+</failure>
+    <system-out>getStreet
+</system-out>
+  </testcase>
+  <testcase classname="Models.BranchOfficeTest" name="Models.BranchOfficeTest.testHashCode" time="0.002">
+    <failure message="expected:&lt;0&gt; but was:&lt;-1222542993&gt;" type="java.lang.AssertionError">java.lang.AssertionError: expected:&lt;0&gt; but was:&lt;-1222542993&gt;
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.failNotEquals(Assert.java:835)
+	at org.junit.Assert.assertEquals(Assert.java:647)
+	at org.junit.Assert.assertEquals(Assert.java:633)
+	at Models.BranchOfficeTest.testHashCode(BranchOfficeTest.java:268)
+</failure>
+    <system-out>hashCode
+</system-out>
+  </testcase>
+  <testcase classname="Models.BranchOfficeTest" name="Models.BranchOfficeTest.testEquals" time="0.001">
+    <failure message="The test case is a prototype." type="java.lang.AssertionError">java.lang.AssertionError: The test case is a prototype.
+	at org.junit.Assert.fail(Assert.java:89)
+	at Models.BranchOfficeTest.testEquals(BranchOfficeTest.java:241)
+</failure>
+    <system-out>equals
+</system-out>
+  </testcase>
+  <testcase classname="Models.BranchOfficeTest" name="Models.BranchOfficeTest.testSetZip_code" time="0.002">
+    <failure message="The test case is a prototype." type="java.lang.AssertionError">java.lang.AssertionError: The test case is a prototype.
+	at org.junit.Assert.fail(Assert.java:89)
+	at Models.BranchOfficeTest.testSetZip_code(BranchOfficeTest.java:226)
+</failure>
+    <system-out>setZip_code
+</system-out>
+  </testcase>
+  <testcase classname="Models.BranchOfficeTest" name="Models.BranchOfficeTest.testGetNumber" time="0.001">
+    <failure message="expected:&lt;&gt; but was:&lt;null&gt;" type="java.lang.AssertionError">java.lang.AssertionError: expected:&lt;&gt; but was:&lt;null&gt;
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.failNotEquals(Assert.java:835)
+	at org.junit.Assert.assertEquals(Assert.java:120)
+	at org.junit.Assert.assertEquals(Assert.java:146)
+	at Models.BranchOfficeTest.testGetNumber(BranchOfficeTest.java:119)
+</failure>
+    <system-out>getNumber
+</system-out>
+  </testcase>
+  <testcase classname="Models.BranchOfficeTest" name="Models.BranchOfficeTest.testCanEqual" time="0.001">
+    <failure message="The test case is a prototype." type="java.lang.AssertionError">java.lang.AssertionError: The test case is a prototype.
+	at org.junit.Assert.fail(Assert.java:89)
+	at Models.BranchOfficeTest.testCanEqual(BranchOfficeTest.java:256)
+</failure>
+    <system-out>canEqual
+</system-out>
+  </testcase>
+  <testcase classname="Models.BranchOfficeTest" name="Models.BranchOfficeTest.testSetNumber" time="0.001">
+    <failure message="The test case is a prototype." type="java.lang.AssertionError">java.lang.AssertionError: The test case is a prototype.
+	at org.junit.Assert.fail(Assert.java:89)
+	at Models.BranchOfficeTest.testSetNumber(BranchOfficeTest.java:213)
+</failure>
+    <system-out>setNumber
+</system-out>
+  </testcase>
+  <testcase classname="Models.BranchOfficeTest" name="Models.BranchOfficeTest.testSetCity" time="0.001">
+    <failure message="The test case is a prototype." type="java.lang.AssertionError">java.lang.AssertionError: The test case is a prototype.
+	at org.junit.Assert.fail(Assert.java:89)
+	at Models.BranchOfficeTest.testSetCity(BranchOfficeTest.java:187)
+</failure>
+    <system-out>setCity
+</system-out>
+  </testcase>
+</testsuite>

@@ -1,0 +1,113 @@
+-------------------------------------------------------------------------------
+Test set: Models.BranchOfficeTest
+-------------------------------------------------------------------------------
+Tests run: 18, Failures: 18, Errors: 0, Skipped: 0, Time elapsed: 0.024 sec <<< FAILURE!
+Models.BranchOfficeTest.testGetId_branch_office()  Time elapsed: 0.005 sec  <<< FAILURE!
+java.lang.AssertionError: The test case is a prototype.
+	at org.junit.Assert.fail(Assert.java:89)
+	at Models.BranchOfficeTest.testGetId_branch_office(BranchOfficeTest.java:51)
+
+Models.BranchOfficeTest.testSetId_branch_office()  Time elapsed: 0 sec  <<< FAILURE!
+java.lang.AssertionError: The test case is a prototype.
+	at org.junit.Assert.fail(Assert.java:89)
+	at Models.BranchOfficeTest.testSetId_branch_office(BranchOfficeTest.java:148)
+
+Models.BranchOfficeTest.testGetName()  Time elapsed: 0.001 sec  <<< FAILURE!
+java.lang.AssertionError: expected:<> but was:<null>
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.failNotEquals(Assert.java:835)
+	at org.junit.Assert.assertEquals(Assert.java:120)
+	at org.junit.Assert.assertEquals(Assert.java:146)
+	at Models.BranchOfficeTest.testGetName(BranchOfficeTest.java:63)
+
+Models.BranchOfficeTest.testGetZip_code()  Time elapsed: 0 sec  <<< FAILURE!
+java.lang.AssertionError: The test case is a prototype.
+	at org.junit.Assert.fail(Assert.java:89)
+	at Models.BranchOfficeTest.testGetZip_code(BranchOfficeTest.java:135)
+
+Models.BranchOfficeTest.testGetCity()  Time elapsed: 0 sec  <<< FAILURE!
+java.lang.AssertionError: expected:<> but was:<null>
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.failNotEquals(Assert.java:835)
+	at org.junit.Assert.assertEquals(Assert.java:120)
+	at org.junit.Assert.assertEquals(Assert.java:146)
+	at Models.BranchOfficeTest.testGetCity(BranchOfficeTest.java:91)
+
+Models.BranchOfficeTest.testSetStreet()  Time elapsed: 0.001 sec  <<< FAILURE!
+java.lang.AssertionError: The test case is a prototype.
+	at org.junit.Assert.fail(Assert.java:89)
+	at Models.BranchOfficeTest.testSetStreet(BranchOfficeTest.java:200)
+
+Models.BranchOfficeTest.testSetName()  Time elapsed: 0 sec  <<< FAILURE!
+java.lang.AssertionError: The test case is a prototype.
+	at org.junit.Assert.fail(Assert.java:89)
+	at Models.BranchOfficeTest.testSetName(BranchOfficeTest.java:161)
+
+Models.BranchOfficeTest.testSetState()  Time elapsed: 0.001 sec  <<< FAILURE!
+java.lang.AssertionError: The test case is a prototype.
+	at org.junit.Assert.fail(Assert.java:89)
+	at Models.BranchOfficeTest.testSetState(BranchOfficeTest.java:174)
+
+Models.BranchOfficeTest.testGetState()  Time elapsed: 0 sec  <<< FAILURE!
+java.lang.AssertionError: expected:<> but was:<null>
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.failNotEquals(Assert.java:835)
+	at org.junit.Assert.assertEquals(Assert.java:120)
+	at org.junit.Assert.assertEquals(Assert.java:146)
+	at Models.BranchOfficeTest.testGetState(BranchOfficeTest.java:77)
+
+Models.BranchOfficeTest.testToString()  Time elapsed: 0.002 sec  <<< FAILURE!
+org.junit.ComparisonFailure: expected:<[]> but was:<[BranchOffice(id_branch_office=0, name=null, state=null, city=null, street=null, number=null, zip_code=null)]>
+	at org.junit.Assert.assertEquals(Assert.java:117)
+	at org.junit.Assert.assertEquals(Assert.java:146)
+	at Models.BranchOfficeTest.testToString(BranchOfficeTest.java:282)
+
+Models.BranchOfficeTest.testGetStreet()  Time elapsed: 0.001 sec  <<< FAILURE!
+java.lang.AssertionError: expected:<> but was:<null>
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.failNotEquals(Assert.java:835)
+	at org.junit.Assert.assertEquals(Assert.java:120)
+	at org.junit.Assert.assertEquals(Assert.java:146)
+	at Models.BranchOfficeTest.testGetStreet(BranchOfficeTest.java:105)
+
+Models.BranchOfficeTest.testHashCode()  Time elapsed: 0.002 sec  <<< FAILURE!
+java.lang.AssertionError: expected:<0> but was:<-1222542993>
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.failNotEquals(Assert.java:835)
+	at org.junit.Assert.assertEquals(Assert.java:647)
+	at org.junit.Assert.assertEquals(Assert.java:633)
+	at Models.BranchOfficeTest.testHashCode(BranchOfficeTest.java:268)
+
+Models.BranchOfficeTest.testEquals()  Time elapsed: 0.001 sec  <<< FAILURE!
+java.lang.AssertionError: The test case is a prototype.
+	at org.junit.Assert.fail(Assert.java:89)
+	at Models.BranchOfficeTest.testEquals(BranchOfficeTest.java:241)
+
+Models.BranchOfficeTest.testSetZip_code()  Time elapsed: 0.002 sec  <<< FAILURE!
+java.lang.AssertionError: The test case is a prototype.
+	at org.junit.Assert.fail(Assert.java:89)
+	at Models.BranchOfficeTest.testSetZip_code(BranchOfficeTest.java:226)
+
+Models.BranchOfficeTest.testGetNumber()  Time elapsed: 0.001 sec  <<< FAILURE!
+java.lang.AssertionError: expected:<> but was:<null>
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.failNotEquals(Assert.java:835)
+	at org.junit.Assert.assertEquals(Assert.java:120)
+	at org.junit.Assert.assertEquals(Assert.java:146)
+	at Models.BranchOfficeTest.testGetNumber(BranchOfficeTest.java:119)
+
+Models.BranchOfficeTest.testCanEqual()  Time elapsed: 0.001 sec  <<< FAILURE!
+java.lang.AssertionError: The test case is a prototype.
+	at org.junit.Assert.fail(Assert.java:89)
+	at Models.BranchOfficeTest.testCanEqual(BranchOfficeTest.java:256)
+
+Models.BranchOfficeTest.testSetNumber()  Time elapsed: 0.001 sec  <<< FAILURE!
+java.lang.AssertionError: The test case is a prototype.
+	at org.junit.Assert.fail(Assert.java:89)
+	at Models.BranchOfficeTest.testSetNumber(BranchOfficeTest.java:213)
+
+Models.BranchOfficeTest.testSetCity()  Time elapsed: 0.001 sec  <<< FAILURE!
+java.lang.AssertionError: The test case is a prototype.
+	at org.junit.Assert.fail(Assert.java:89)
+	at Models.BranchOfficeTest.testSetCity(BranchOfficeTest.java:187)
+

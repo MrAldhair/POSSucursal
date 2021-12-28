@@ -1,0 +1,10 @@
+-------------------------------------------------------------------------------
+Test set: Business.RequestApiSalesTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 5.021 sec <<< FAILURE!
+Business.RequestApiSalesTest.testDoPostRequest()  Time elapsed: 5.02 sec  <<< FAILURE!
+org.junit.ComparisonFailure: expected:<...AssuredResponseImpl@[4ed38226]> but was:<...AssuredResponseImpl@[3d43fe]>
+	at org.junit.Assert.assertEquals(Assert.java:117)
+	at org.junit.Assert.assertEquals(Assert.java:146)
+	at Business.RequestApiSalesTest.testDoPostRequest(RequestApiSalesTest.java:86)
+
