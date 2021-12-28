@@ -7,33 +7,47 @@ import java.sql.SQLException;
 public class ConnDBH2 {
     
     // Libreria de MySQL
-    public String driver = "org.h2.Driver";
+    public static String driver = "org.h2.Driver";
     //Ruta de la bd
-    public String url = "jdbc:h2:tcp://localhost/~/test";
+    public static String url = "jdbc:h2:tcp://localhost/~/test";
     // Nombre de usuario
-    public String userName = "sa";
+    public static String userName = "sa";
     // Contraseña
-    public String password = "";
+    public static String password = "";
     //
 
     // Metodo de conexion
-    public Connection connectionDbH2(){
-            Connection conn = null;
+    public static Connection connectionDbH2(){
+
+        Connection conn = null;
+
         try {
+
             Class.forName(driver);
             conn = DriverManager.getConnection(url, userName, password);
+
         } catch (ClassNotFoundException | SQLException e) {
+
             System.out.println(e.toString());
+
             e.printStackTrace();
+
         }
         return conn;
     }
-    public void closeConnection(){
-         Connection conn= null;
+
+    public static void closeConnection(){
+        //Connection conn = null;
+        Connection conn = connectionDbH2();
+
         try{
+
             conn.close();
+
         }catch(SQLException e){
+
             e.printStackTrace();
+
         }
     }
     

@@ -21,7 +21,7 @@ public class App extends Application {
         stage.setTitle("Sistema de registro y administración");
         stage.show();
         Platform.setImplicitExit(true);
-        stage.setOnCloseRequest((eh)->{
+        stage.setOnCloseRequest((eh) -> {
             Platform.exit();
             System.exit(0);
         });

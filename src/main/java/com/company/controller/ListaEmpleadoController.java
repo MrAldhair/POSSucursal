@@ -46,20 +46,15 @@ public final class ListaEmpleadoController implements Initializable {
     @FXML private TableColumn<Employee, String> colPassword;
     @FXML private TableColumn<Employee, String> colTypeUser;
     @FXML private TableColumn<Employee, String> colBranchName;
-    
-    
+ 
     // Lista de empleados para llenar la tabla
     private ObservableList<Employee> empleyees;
-    
     // Instancias la clase que hemos creado anteriormente
     private static ConnDBH2 SQL = new ConnDBH2();
-    
     // Llamas al método que tiene la clase y te devuelve una conexión
     private static Connection conn;
-    
     // Query que usarás para hacer lo que necesites
     private static String querySql = "";
-    
     // Obtener el resuldo de una consulta
     private ResultSet rs;
     
@@ -68,8 +63,6 @@ public final class ListaEmpleadoController implements Initializable {
     
     // Objeto que se utliza e varios metodos para obtener datos de otro clases
     Employee name_employee = new Employee();
-
-    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -83,7 +76,8 @@ public final class ListaEmpleadoController implements Initializable {
         this.colPassword.setCellValueFactory(new PropertyValueFactory("password"));
         this.colTypeUser.setCellValueFactory(new PropertyValueFactory("typeEmployee"));
         this.colBranchName.setCellValueFactory(new PropertyValueFactory("branchName"));
- 
+        
+        // Llenar tabla con los datos de los empleados
         fillTable();    
         
         // Usuario que inicia sesion
@@ -91,7 +85,9 @@ public final class ListaEmpleadoController implements Initializable {
         this.lblNameUser.setText("Usuario: " + name_employee.getUser());
     }
     
-    
+    /*
+     * Metodo para cambiar de vista cuando se quiere crear un nuevo empleado para el sistema
+    */
     @FXML
     private void generateNewEmployee(ActionEvent event) {
         
@@ -109,7 +105,10 @@ public final class ListaEmpleadoController implements Initializable {
             }
         }
     }
-
+    
+    /*
+    *  Metodo para eliminar un empleado de la base de datos
+    */
     @FXML
     private void deleteEmployee(ActionEvent event) {
         
@@ -140,20 +139,21 @@ public final class ListaEmpleadoController implements Initializable {
 
                     // confirmacion de la alerta
                     if (action.get() == ButtonType.OK) {
-                        
+
                         preparedStatement.execute();
                         this.empleyees.remove(em);
                         this.tableEmployees.refresh();
                         Alerts.alertInformation("Eliminar empleado", "Elemento eliminado con exito");
-                        
+
                     } else {
-                        
+
                         preparedStatement.cancel();
                         System.out.println("no execute");
-                        
+
                     }
-                } catch (SQLException e) {
                     
+                } catch (SQLException e) {
+
                     System.out.println(e.getMessage());
                     
                 }
@@ -161,8 +161,11 @@ public final class ListaEmpleadoController implements Initializable {
             } else {
                 
                 Alerts.alertWarning("Eliminar empleado", "Debes seleccionar un elemento de la tabla apara poder eliminarlo");
-            }        
-        } 
+                
+            }
+            
+        }
+        
     }
 
     @FXML
@@ -215,7 +218,7 @@ public final class ListaEmpleadoController implements Initializable {
         
     }
     
-    public void listUsers() {
+    /*public void listUsers() {
         
         conn = SQL.connectionDbH2();
         querySql = "SELECT user FROM useremployee";
@@ -239,6 +242,6 @@ public final class ListaEmpleadoController implements Initializable {
             
         }
         
-    }
+    }*/
     
 }
