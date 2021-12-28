@@ -4,7 +4,6 @@ Configurations\DataAndHour.class
 Configurations\Alerts.class
 com\company\controller\PrincipalController.class
 Configurations\LoadImage.class
-ConnectivityAPI\Connectivity.class
 Models\BranchOffice.class
 ConnectionDB\ConnDBH2.class
 Configurations\IdUser.class
@@ -14,6 +13,5 @@ com\company\controller\NuevaVentaController.class
 com\company\controller\ListaEmpleadoController.class
 Configurations\DataAndHour$1.class
 Models\Employee.class
-Business\RequestApiSales.class
 com\company\controller\EmpleadoController.class
 Configurations\CleanTextfield.class

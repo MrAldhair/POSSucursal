@@ -33,7 +33,7 @@ public class ConnDBH2 {
         try{
             conn.close();
         }catch(SQLException e){
-            e.printStackTrace();
+                System.out.println("Error: " + e.getMessage());
         }
     }
     
