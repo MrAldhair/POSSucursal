@@ -14,6 +14,7 @@ com\company\controller\NuevaVentaController.class
 com\company\controller\ListaEmpleadoController.class
 Configurations\DataAndHour$1.class
 Models\Employee.class
+BusinessAPI\ListBranchOfficeApi.class
 Business\RequestApiSales.class
 com\company\controller\EmpleadoController.class
 Configurations\CleanTextfield.class
