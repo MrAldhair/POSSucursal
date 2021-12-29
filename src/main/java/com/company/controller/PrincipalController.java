@@ -67,11 +67,8 @@ public class PrincipalController implements Initializable {
     @FXML private TextField txtPassword;
     @FXML private Button btnLogin;
     
-    
-
     private final ObservableList<String> optionEmployee = FXCollections.observableArrayList( "Administrador", "Empleado");
     private ObservableList<String> optionsBranchOffice = FXCollections.observableArrayList();
-    
     
     public static Employee em = new Employee();
     public static BranchOffice branch_office = new BranchOffice();
@@ -137,7 +134,7 @@ public class PrincipalController implements Initializable {
                     pstm.setString(1, username);
                     pstm.setString(2, password);
                     pstm.setString(3, typeEmployee);
-                    pstm.setString(4,rbSelectBranchOffice.getSelectionModel().getSelectedItem());
+                    pstm.setString(4, rbSelectBranchOffice.getSelectionModel().getSelectedItem());
                     rs = pstm.executeQuery();
 
                     if (rs.next()) {
@@ -191,42 +188,42 @@ public class PrincipalController implements Initializable {
     private void loadDataBranchOffice() throws IOException {
 
         try {
-                // api para consumir los datos
-                url = new URL("http://localhost:9001/ListBranchOffice");
-                //realiza la conexion
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("GET");            
-                connection.connect();
+            // api para consumir los datos
+            url = new URL("http://localhost:9001/ListBranchOffice");
+            //realiza la conexion
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");            
+            connection.connect();
 
-                if(connection.getResponseCode() == 200){
-                    System.out.println("Response: OK");
+            if(connection.getResponseCode() == 200){
+                System.out.println("Response: OK");
 
-                    //obtiene respuesta
-                    bufferedReader  = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                    stringBuilder = new StringBuilder();
+                //obtiene respuesta
+                bufferedReader  = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                stringBuilder = new StringBuilder();
 
-                    while ((line = bufferedReader.readLine()) != null) {
-                        
-                        stringBuilder.append(line);
-                        
-                    }
+                while ((line = bufferedReader.readLine()) != null) {
 
-                    JSONArray dataArray  = new JSONArray(stringBuilder.toString());                 
-                    
-                    for(int i = 0 ; i < dataArray.length(); i++) {
+                    stringBuilder.append(line);
 
-                        JSONObject row = dataArray.getJSONObject(i); 
-                        
-                        optionsBranchOffice.add(row.getString("name"));
- 
-                    }
-                    
-                }    
-                
-            } catch (MalformedURLException e) {
+                }
 
-                    e.printStackTrace();
-            }
+                JSONArray dataArray  = new JSONArray(stringBuilder.toString());                 
+
+                for(int i = 0 ; i < dataArray.length(); i++) {
+
+                    JSONObject row = dataArray.getJSONObject(i); 
+                    optionsBranchOffice.add(row.getString("name"));
+
+                }
+
+            }    
+
+        } catch (MalformedURLException e) {
+
+                e.printStackTrace();
+
+        }
         
     }
     
