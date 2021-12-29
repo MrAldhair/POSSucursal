@@ -26,6 +26,9 @@ public class PostApi {
                 byte[] out = data.getBytes(StandardCharsets.UTF_8);
                 OutputStream stream = http.getOutputStream();
                 stream.write(out);
+                http.getResponseCode();
+                http.getResponseMessage();
+//                System.out.println(http.getResponseCode() + " " + http.getResponseMessage());
                 http.disconnect();
         } catch (IOException e) {
             System.out.println(e);
