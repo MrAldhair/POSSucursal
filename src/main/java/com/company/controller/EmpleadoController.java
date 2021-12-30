@@ -1,6 +1,7 @@
 
 package com.company.controller;
 
+import BusinessAPI.ListSalesApi;
 import Configurations.Alerts;
 import Configurations.DataAndHour;
 import Configurations.LoadImage;
@@ -77,19 +78,13 @@ public class EmpleadoController implements Initializable{
     
     Employee name_employee = new Employee();
     
-    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-       // Usuario que inicia sesion trasferido desde la clase PrincipalController
-       this.em.setUser(PrincipalController.em.getUser()); 
-       System.out.println(em.getUser());
-  
+        // Usuario que inicia sesion trasferido desde la clase PrincipalController
+        this.em.setUser(PrincipalController.em.getUser()); 
+        //System.out.println(em.getUser());
         DataAndHour.dateAndHour(this.txtDate);
-        
         LoadImage.loadImageMain(this.imageMain);
-        
-        System.out.println();
         
         this.colIdSale.setCellValueFactory(new PropertyValueFactory<>("id_sale"));
         this.colIdBranchOffice.setCellValueFactory(new PropertyValueFactory<>("id_branch_office"));
@@ -98,156 +93,89 @@ public class EmpleadoController implements Initializable{
         this.colDateSale.setCellValueFactory(new PropertyValueFactory<>("date_sale"));
         this.colNameBranchOffice.setCellValueFactory(new PropertyValueFactory<>("name_branch_office"));
         
-        
         listSales = (ObservableList<Sale>) tbSales.getItems();
-        
-        
         // intentar ejecutar desde el constructor de esta clase
         try {
-            
             loadDataApi();
-            
         } catch (IOException | SQLException ex) {
-            
             Logger.getLogger(EmpleadoController.class.getName()).log(Level.SEVERE, null, ex);
-            
         }
         
         // Usuario que inicia sesion
         this.name_employee.setUser(PrincipalController.em.getUser());
         this.lblUserName.setText("Usuario: " + name_employee.getUser());
-        
     }
 
     @FXML 
     private void newSale(ActionEvent event) {
-        
         Object ev = event.getSource();
-        
         if(ev.equals(this.btnNewSale)){ 
-        
             try {
-            
             App.setRoot("VistaNuevaVenta");
-            
             } catch (IOException e) {
-
                 System.out.println("Error: " + e.getMessage());
-
             }
-        
         }
- 
     }
 
     @FXML 
     private void signOutEmployee(ActionEvent event) {
-        
         Object ev = event.getSource();
         
         if(ev.equals(this.btnSignOutEmployee)){
-        
-            try {
-                
+            try {        
                 this.alert = new Alert(Alert.AlertType.CONFIRMATION);
                 this.alert.setTitle("Cerrar sesión");
                 this.alert.setContentText("¿Esta seguro de salir?");
-                this.alert.setHeaderText(null);
-                        
+                this.alert.setHeaderText(null);       
                 // Se agrega esto para obtener el resultado de la alerta de la confirmación
                 Optional<ButtonType> action = this.alert.showAndWait();
-
-
                 // confirmacion de la alerta
                 if (action.get() == ButtonType.OK) {
-                
                     App.setRoot("VistaPrincipal");
-                    
                 } else {
-                    
                     Alerts.alertInformation("Cerrar sesión", "Puede seguir trabajando...");
-                    
                 }
-            
             } catch (IOException e) {
-
                 System.out.println("Error: " + e.getMessage());
-
             }
-            
         }
-        
     }
-    
    
     private void loadDataApi() throws IOException, SQLException {
-            
-        try { 
-
-        url = new URL("http://localhost:9001/listar");
-
-        //realiza la conexion
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("GET");            
-        connection.connect();
-
-        if(connection.getResponseCode() == 200){  
-
-            System.out.println("Response: OK");
-            //obtiene respuesta
-            bufferedReader  = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            stringBuilder = new StringBuilder();
-
-            while ((line = bufferedReader.readLine()) != null) {
-
-                stringBuilder.append(line);
-
-            }
-
-            JSONArray dataArray  = new JSONArray(stringBuilder.toString());
-            this.tbSales.getItems().removeAll(listSales);
-
-            for(int i = 0 ; i < dataArray.length(); i++){
-
-                JSONObject row = dataArray.getJSONObject(i); 
+        ListSalesApi listSalesApi = new ListSalesApi();
+        JSONArray dataArray  = new JSONArray(listSalesApi.consultSales().toString());
+        this.tbSales.getItems().removeAll(listSales);
+        
+        for(int i = 0 ; i < dataArray.length(); i++){
+            JSONObject row = dataArray.getJSONObject(i); 
                 
-                if(row.getInt("id_employee") == userLogin()){
-                    
-                    listSales.add(new Sale(row.getLong("id_sale"), row.getInt("id_employee"), row.getLong("id_branch_office"), row.getString("name_branch_office"), row.getDouble("total_sale"), row.getString("description"), row.getString("date_sale"), row.getString("name_employee")));
-                
-                }
-                
-            }
-
-        }
-
-        } catch (MalformedURLException e) {
-
-                e.printStackTrace();
-
-        }
-                  
+            if(row.getInt("id_employee") == userLogin()){
+                listSales.add(
+                        new Sale(
+                                row.getLong("id_sale"), 
+                                row.getInt("id_employee"), 
+                                row.getLong("id_branch_office"), 
+                                row.getString("name_branch_office"), 
+                                row.getDouble("total_sale"), 
+                                row.getString("description"), 
+                                row.getString("date_sale"), 
+                                row.getString("name_employee")));
+            }    
+        }             
     }
     
     private int userLogin() throws SQLException {
-    
-        conn = SQL.connectionDbH2();
+        conn = ConnDBH2.connectionDbH2();
         sSQL = "SELECT idemployee FROM useremployee WHERE user=?";
-        
-        int idUser = 32;
-        
+        int idUser = 0; 
         PreparedStatement preparedStatement = conn.prepareStatement(sSQL);
         preparedStatement.setString(1, em.getUser());
         rs = preparedStatement.executeQuery();
-       
-        if(rs.next()){
-            
-            idUser = rs.getInt("idemployee");
-            
-        }
-    
-        return idUser;
         
+        if(rs.next()){    
+            idUser = rs.getInt("idemployee");
+        }
+        return idUser;
     }
-    
 }
