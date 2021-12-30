@@ -1,6 +1,6 @@
-
 package com.company.controller;
 
+import BusinessAPI.ListSalesApi;
 import Configurations.Alerts;
 import Configurations.DataAndHour;
 import Configurations.LoadImage;
@@ -9,8 +9,6 @@ import Models.Employee;
 import Models.Sale;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Connection;
@@ -40,7 +38,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 
 public class AdministradorController implements Initializable {
 
@@ -97,252 +94,145 @@ public class AdministradorController implements Initializable {
         this.coldescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         this.colDate.setCellValueFactory(new PropertyValueFactory<>("date_sale"));
         this.colNameUser.setCellValueFactory(new PropertyValueFactory<>("name_employee"));
-        this.colNameBranchOffice.setCellValueFactory(new PropertyValueFactory<>("name_branch_office"));
-      
-        
+        this.colNameBranchOffice.setCellValueFactory(new PropertyValueFactory<>("name_branch_office"));        
         listSales = tbSalesAdmin.getItems();
         cBoxUsers.setItems(FXCollections.observableArrayList(getData()));
         
         // Usuario que inicia sesion
         this.name_employee.setUser(PrincipalController.em.getUser());
         this.lblNameUser.setText("Usuario: " + name_employee.getUser());
-        
     }    
 
     @FXML
     private void filterUsers(ActionEvent event) throws IOException, SQLException {
-        
         Object ev = event.getSource();
-        
         if(ev.equals(this.btnFilterUsers)){
-        
-            try { 
-            
+            try {
                 String selectedItem = cBoxUsers.getSelectionModel().getSelectedItem();
-                url = new URL("http://localhost:9001/listar");
-
-                //realiza la conexion
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("GET");            
-                connection.connect();
-
-                if(connection.getResponseCode() == 200 && selectedItem != null) {
-
-                    System.out.println("Response: OK");
-                    //obtiene respuesta
-                    bufferedReader  = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                    stringBuilder = new StringBuilder();
-
-                    while ((line = bufferedReader.readLine()) != null) {
-
-                        stringBuilder.append(line);
-
-                    }
-
-                    JSONArray dataArray  = new JSONArray(stringBuilder.toString());
-
+                if(selectedItem != null) {
+                    ListSalesApi listSalesApi = new ListSalesApi();
+                    JSONArray dataArray  = new JSONArray(listSalesApi.consultSales().toString());
                     this.tbSalesAdmin.getItems().removeAll(listSales);
-
+                    //recorre el json
                     for(int i = 0 ; i < dataArray.length(); i++){
-
                         JSONObject row = dataArray.getJSONObject(i);
-
-                          if(row.getInt("id_employee") == getUserId()){  
-                          listSales.add(
-                                    new Sale(
-                                            row.getLong("id_sale"), 
-                                            row.getInt("id_employee"), 
-                                            row.getLong("id_branch_office"),
-                                            row.getString("name_branch_office"),
-                                            row.getDouble("total_sale"), 
-                                            row.getString("description"), 
-                                            row.getString("date_sale"),
-                                            row.getString("name_employee"),
-                                            row.getString("folio")));
-                          
-                        } else {
-
-                              // Me muestra este mensaje 2 veces, encotrar el porque
-                              Alerts.alertWarning("Filtrar ventas por usuario", "Este usuario no tiene ventas registradas");
-
+                        if(row.getInt("id_employee") == getUserId()){    
+                        listSales.add(
+                                new Sale(
+                                        row.getLong("id_sale"), 
+                                        row.getInt("id_employee"), 
+                                        row.getLong("id_branch_office"),
+                                        row.getString("name_branch_office"),
+                                        row.getDouble("total_sale"), 
+                                        row.getString("description"), 
+                                        row.getString("date_sale"),
+                                        row.getString("name_employee"),
+                                        row.getString("folio")));
                         }
-
                     }
-
+                    if(listSales.isEmpty()){
+                              Alerts.alertWarning("Filtrar ventas por usuario",
+                                      "Este usuario no tiene ventas registradas");
+                        }
                 }
-
             } catch (MalformedURLException e) {
-
-                e.printStackTrace();
-
             }
-            
-        }   
-        
+        }
     }
 
     @FXML
     private void signOutAdmin(ActionEvent event) {
-        
         Object ev = event.getSource();
-        
         if(ev.equals(this.btnSignOutAdmin)){
-            
             try {
-                
                 this.alert = new Alert(Alert.AlertType.CONFIRMATION);
                 this.alert.setTitle("Cerrar sesión");
                 this.alert.setContentText("¿Esta seguro de salir?");
-                this.alert.setHeaderText(null);       
+                this.alert.setHeaderText(null);   
+                
                 // Se agrega esto para obtener el resultado de la alerta de la confirmación
                 Optional<ButtonType> action = this.alert.showAndWait();
+                
                 // confirmacion de la alerta
-                
                 if (action.get() == ButtonType.OK) {
-                    
                     App.setRoot("VistaPrincipal");
-                    
-                } else {
-                    
+                } else {    
                     Alerts.alertInformation("Cerrar sesión", "Puede seguir trabajando...");
-                    
-                }            
-                
+                }
             } catch (IOException e) {
-                
                 System.out.println("Error: " + e.getMessage());
-                
             }
         }
     }
 
     @FXML
     private void addModUser(ActionEvent event) {
-        
         try {
-            
             App.setRoot("VistaListaEmpleado");
-            
         } catch (IOException e) {
-            
             System.out.println("Error: " + e.getMessage());
-            
         }
-        
     }
 
     @FXML
     private void loadDataApi(ActionEvent event) throws IOException {
-        
         Object ev = event.getSource();
         
         if(ev.equals(this.btnLoadJson)){
-            
             this.totalSales = 0.0;
-            
-            try {
-                
-                url = new URL("http://localhost:9001/listar");
-                //realiza la conexion
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("GET");            
-                connection.connect();
+            ListSalesApi listSalesApi = new ListSalesApi();
+            JSONArray dataArray  = new JSONArray(listSalesApi.consultSales().toString());
+            tbSalesAdmin.getItems().removeAll(listSales);
+            for(int i = 0 ; i < dataArray.length(); i++) {
 
-                if(connection.getResponseCode() == 200){
-                    System.out.println("Response: OK");
-
-                    //obtiene respuesta
-                    bufferedReader  = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                    stringBuilder = new StringBuilder();
-
-                    while ((line = bufferedReader.readLine()) != null) {
-                        
-                        stringBuilder.append(line);
-                        
-                    }
-
-                    JSONArray dataArray  = new JSONArray(stringBuilder.toString());
-                    tbSalesAdmin.getItems().removeAll(listSales);
-
-                    for(int i = 0 ; i < dataArray.length(); i++) {
-
-                        JSONObject row = dataArray.getJSONObject(i); 
-                        listSales.add(
-                                new Sale(
-                                        row.getLong("id_sale"),
-                                        row.getInt("id_employee"),
-                                        row.getLong("id_branch_office"),
-                                        row.getString("name_branch_office"),
-                                        row.getDouble("total_sale"),
-                                        row.getString("description"),
-                                        row.getString("date_sale"),
-                                        row.getString("name_employee"),
-                                        row.getString("folio")));
-
-                        totalSales += row.getDouble("total_sale");
-                        id_user = row.getInt("id_employee");
-                        
-                    }
-                    
-                this.txtTotalSales.setText(totalSales.toString());
-                
-                }    
-                } catch (MalformedURLException e) {
-
-                        e.printStackTrace();
-                }
+                JSONObject row = dataArray.getJSONObject(i); 
+                listSales.add(
+                        new Sale(
+                                row.getLong("id_sale"),
+                                row.getInt("id_employee"),
+                                row.getLong("id_branch_office"),
+                                row.getString("name_branch_office"),
+                                row.getDouble("total_sale"),
+                                row.getString("description"),
+                                row.getString("date_sale"),
+                                row.getString("name_employee")));
+                totalSales += row.getDouble("total_sale");
+                id_user = row.getInt("id_employee");
             }
-        
+            this.txtTotalSales.setText(totalSales.toString());
+        }
     }
     
     private List<String> getData(){
-         
         conn = SQL.connectionDbH2();
         querySql = "SELECT user FROM useremployee";
         List<String> options = new ArrayList<>();
-        
         try {
             PreparedStatement pstm = conn.prepareCall(querySql);
             rs=pstm.executeQuery();
-            
             while (rs.next()){
-                
                 options.add(rs.getString("user"));
-                
             }
-            
             pstm.close();
             rs.close();
             return options;
-            
         } catch(SQLException ex) {
-            
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
             return null;
-            
         }
     }
     
-    
     private Integer getUserId() throws SQLException {
-        
         conn = SQL.connectionDbH2();
         querySql = "SELECT idemployee FROM useremployee WHERE user=?";
         int idEmployee=0;
-        
         String name_user = cBoxUsers.getSelectionModel().getSelectedItem();
         PreparedStatement preparedStatement = conn.prepareStatement(querySql);
         preparedStatement.setString(1, name_user);
-        
         rs = preparedStatement.executeQuery();
-        
         if(rs.next()){
-            
             idEmployee = rs.getInt("idemployee");
         }
-        
-        return idEmployee;  
-        
+        return idEmployee;
     }
-     
 }
