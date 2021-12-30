@@ -7,16 +7,16 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class ListBranchOfficeApi {
-
+public class ListSalesApi {
+    
     private BufferedReader bufferedReader;
     private StringBuilder stringBuilder;
-    private String line;        
+    private String line;   
     
-    public StringBuilder consultIdBranchOffice() throws IOException {
-        try {
-                // api para consumir los datos
-                URL url = new URL("http://localhost:9001/ListBranchOffice");
+    public StringBuilder consultSales()throws IOException{
+        try{
+            // api para consumir los datos
+                URL url = new URL("http://localhost:9001/listar");
                 //realiza la conexion
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");            
@@ -35,5 +35,5 @@ public class ListBranchOfficeApi {
                 System.out.println("Error: " + e.getMessage());
             }
         return stringBuilder;
-    }
+    }    
 }
