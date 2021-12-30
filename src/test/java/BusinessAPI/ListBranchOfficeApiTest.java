@@ -9,28 +9,8 @@ import io.restassured.RestAssured;
 import static org.hamcrest.Matchers.*;
 import org.junit.Test;
 
-public class ListBranchOfficeApiTest {    
-    public ListBranchOfficeApiTest() {
-    }
-    /**
-     * valida conexión a API.
-     * /
-    @Test
-    public void testConecctionConsultIdBranchOffice() throws Exception{
-        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
-        RestAssured.given()
-                .header("Accept","application/json")
-                .header("Content-Type","application/json")
-                .queryParam("format", "json")
-                .when()
-                .get("http://localhost:9001/ListBranchOffice")
-                .then()
-                .assertThat().statusCode(is(equalTo(200)));
-    }
-    /**
-     * valida que extrae y muestra los datos con metodo get en caso de existir 
-     * registros en API.
-    */
+public class ListBranchOfficeApiTest {   
+    
     @Test
     public void testConsultIdBranchOffice() throws Exception {
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
