@@ -117,6 +117,8 @@
                     <excludes>
                         <exclude>module-info.java</exclude>
                     </excludes>
+                    <source>8</source>
+                    <target>8</target>
                 </configuration>
             </plugin>
             <!-- Medir cobertura de los test -->

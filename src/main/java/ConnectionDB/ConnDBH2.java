@@ -12,7 +12,7 @@ public class ConnDBH2 {
     public static String url = "jdbc:h2:tcp://localhost/~/test";
     // Nombre de usuario
     public static String userName = "sa";
-    // Contraseña
+    // Contraseï¿½a
     public static String password = "";
     //
 
@@ -29,14 +29,16 @@ public class ConnDBH2 {
         } catch (ClassNotFoundException | SQLException e) {
 
             System.out.println(e.toString());
-
             e.printStackTrace();
 
         }
+        
         return conn;
+        
     }
 
     public static void closeConnection(){
+        
         //Connection conn = null;
         Connection conn = connectionDbH2();
 
@@ -49,6 +51,7 @@ public class ConnDBH2 {
             e.printStackTrace();
 
         }
+        
     }
     
 }

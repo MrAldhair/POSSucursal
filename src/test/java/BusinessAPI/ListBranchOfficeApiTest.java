@@ -13,7 +13,9 @@ public class ListBranchOfficeApiTest {
     
     @Test
     public void testConsultIdBranchOffice() throws Exception {
+        
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
+        
         String body = RestAssured
                 .given().baseUri("http://localhost:9001/ListBranchOffice")
                 .and().queryParam("format", "json")
@@ -29,5 +31,7 @@ public class ListBranchOfficeApiTest {
                 .body("number", response -> notNullValue())
                 .body("zip_code", response -> notNullValue())
                 .and().extract().body().asString();
+        
     }
+    
 }

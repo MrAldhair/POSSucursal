@@ -3,6 +3,7 @@ package ConnectionDB;
 import org.junit.Test;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 import static org.junit.Assert.*;
 
@@ -11,7 +12,7 @@ public class ConnDBH2Test {
     @Test
     public void connectionDbH2() {
 
-        System.out.println("*** Successfull connection to the data base");
+        System.out.println("*** Successful connection to the data base");
 
         Connection connection = null;
 
@@ -34,16 +35,15 @@ public class ConnDBH2Test {
     }
 
     @Test
-    public void closeConnection() {
+    public void closeConnection() throws SQLException {
 
-        System.out.println("*** Successfull close connection to the data base");
+        System.out.println("*** Unsuccessful close connection to the data base");
 
         Connection connection = null;
 
         try {
 
-            // Obtener el objeto de conexión
-            connection = ConnDBH2.connectionDbH2();
+            System.out.println("No se ha creado ningun punto de conexion");
 
         } catch (Exception e) {
 
@@ -52,11 +52,10 @@ public class ConnDBH2Test {
         } finally {
 
             ConnDBH2.closeConnection();
-            assertNotNull(connection);
-
+            
         }
 
-
+        assertNull(connection);
 
     }
 }

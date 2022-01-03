@@ -74,18 +74,29 @@ public class NuevaVentaController implements Initializable{
     private URL url;
     
     public NuevaVentaController() {
+        
         // Inicializar la lista
         this.listTextfield = new ArrayList<>();
+        
     }
     
+    /*
+    * Validar que el campo de txtTotal se un numero y no otro tipos de caracteres
+    */
     public boolean validateTextField() throws IOException {
+        
         try {
+            
             Double.parseDouble(this.txtTotal.getText());
+            
         } catch (NumberFormatException e) {
+            
             Alerts.alertWarning("Campos invalidos", "Ingresa solamente números en TOTAL");
             CleanTextfield.cleanAllTextfield(this.listTextfield);
             return false;
+            
         }
+        
         return true;
     }
     
@@ -94,23 +105,29 @@ public class NuevaVentaController implements Initializable{
 
         // Usuario que inicia sesion trasferido desde la clase PrincipalController
         this.name_employee.setUser(PrincipalController.em.getUser());
-        this.new_branch_office.setName(PrincipalController.branch_office.getName());              
+        this.new_branch_office.setName(PrincipalController.branch_office.getName());
+        // Usuario que inicia sesion en pantalla
+        this.lblUserName.setText("Usuario: " + name_employee.getUser());
+        //Establecer la hora en la pantalla
         DataAndHour.dateAndHour(txtDate);
+        // Cargar logo en la pantalla
         LoadImage.loadImageMain(this.imageMain);
         this.listTextfield.add(this.txtTotal);
         this.listTextfield.add(this.txtSaleDescription);
+        //Establecer la hora de la venta cuando se genere una nueva
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDateTime now = LocalDateTime.now();
         this.txtSaleDate.setText(dtf.format(now));
-        // Usuario que inicia sesion
-        this.name_employee.setUser(PrincipalController.em.getUser());
-        this.lblUserName.setText("Usuario: " + name_employee.getUser());
+  
     }
     
     @FXML 
     private void generateSale(ActionEvent event) throws SQLException, IOException {
+        
         Object ev = event.getSource();
+        
         if(ev.equals(this.btnGenerateSale)){
+            
             if(validateTextField() == true && 
                     !this.txtDate.getText().isEmpty() && 
                     !this.txtSaleDescription.getText().isEmpty()) {
@@ -131,9 +148,12 @@ public class NuevaVentaController implements Initializable{
                         "Empleado: "+new_sale.getName_employee()+" - "+
                         "Fecha: "+new_sale.getDate_sale()+" - "+
                         "Total: "+new_sale.getTotal_sale().toString());
+                
                 ObjectMapper mapper = new ObjectMapper();
                 String json;
+                
                 try {
+                    
                     this.alert = new Alert(Alert.AlertType.CONFIRMATION);
                     this.alert.setTitle("Generación de venta");
                     this.alert.setContentText("Confirmar venta");
@@ -144,38 +164,65 @@ public class NuevaVentaController implements Initializable{
 
                     // confirmacion de la alerta
                     if (action.get() == ButtonType.OK) {
+                        
                         //Enviar datos de venta
                         json = mapper.writeValueAsString(new_sale);
                         PostApi.postJson(json);
                         Alerts.alertInformation("Generación de venta", "Nueva venta generada con exito");
                         // Limpiar los campos
-                        CleanTextfield.cleanAllTextfield(this.listTextfield);                        
+                        CleanTextfield.cleanAllTextfield(this.listTextfield); 
+                        
                     } else {
+                        
                         Alerts.alertInformation("Generación de venta", "Operación cancelada");
+                        
                     }
                     
                 } catch (JsonProcessingException | NumberFormatException e) {
+                    
                     System.out.println("Error:" + e.getMessage());
+                    
                 }
+                
             } else {
+                
                 Alerts.alertWarning("Generación de nueva venta", "Existen campos vacios, por favor llene todo espacios en blanco");
+                
             }
+            
         }
-    }
-
-    @FXML
-    private void switchToEmployee(ActionEvent event) {
-        Object ev = event.getSource();
-        if (ev.equals(this.btnReturnEmployeeSale)) {
-            try {
-                App.setRoot("VistaEmpleado");
-            } catch (IOException e) {
-                System.out.println("Error: " + e.getMessage());
-            }
-        }
+        
     }
     
+    /*
+    * Cambiar a la pantalla de principal del empleado de ventas
+    */
+    @FXML
+    private void switchToEmployee(ActionEvent event) {
+        
+        Object ev = event.getSource();
+        
+        if (ev.equals(this.btnReturnEmployeeSale)) {
+            
+            try {
+                
+                App.setRoot("VistaEmpleado");
+                
+            } catch (IOException e) {
+                
+                System.out.println("Error: " + e.getMessage());
+                
+            }
+            
+        }
+        
+    }
+    
+    /*
+    * Obtener el ID de usuario que inicia sesion, (se hace la consulta a la db)
+    */
     private int userLogin() throws SQLException {
+        
         conn = SQL.connectionDbH2();
         sSQL = "SELECT idemployee FROM useremployee WHERE user=?";
         int idUser = 0;
@@ -184,26 +231,44 @@ public class NuevaVentaController implements Initializable{
         rs = preparedStatement.executeQuery();
         
         if(rs.next()){
+            
             idUser = rs.getInt("idemployee");
+            
         }
+        
         return idUser;     
     }
     
     private Long consumeBranchOffice() throws IOException {
+        
         Long id_branch_office = null;
+        
         try {
+            
             ListBranchOfficeApi branch = new ListBranchOfficeApi();
             JSONArray dataArray  = new JSONArray(branch.consultIdBranchOffice().toString());
+            
             for(int i = 0 ; i < dataArray.length(); i++) {
+                
                 JSONObject row = dataArray.getJSONObject(i);
+                
                 if(new_branch_office.getName().equals(row.getString("name"))){
+                    
                     new_branch_office.setId_branch_office(row.getLong("id_branch_office"));
                     id_branch_office = new_branch_office.getId_branch_office();
+                    
                 }
-            }        
+                
+            }   
+            
             } catch (MalformedURLException e) {
-                e.printStackTrace();    
+                
+                e.printStackTrace();  
+                
             }
+        
         return id_branch_office;
+        
     }
+    
 }
