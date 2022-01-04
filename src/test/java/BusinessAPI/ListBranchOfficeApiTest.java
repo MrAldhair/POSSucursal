@@ -31,7 +31,5 @@ public class ListBranchOfficeApiTest {
                 .body("number", response -> notNullValue())
                 .body("zip_code", response -> notNullValue())
                 .and().extract().body().asString();
-        
     }
-    
 }

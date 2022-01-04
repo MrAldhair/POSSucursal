@@ -1,6 +1,6 @@
 package com.company.controller;
 
-import ConnectionDB.ConnDBH2;
+import BusinessDB.ConnDBH2;
 import org.junit.Test;
 import java.sql.*;
 import static org.junit.Assert.*;

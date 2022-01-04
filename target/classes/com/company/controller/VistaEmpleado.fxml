@@ -26,7 +26,7 @@
          <children>
             <VBox prefHeight="200.0" prefWidth="800.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Label fx:id="lblTitle" text="Sistema de Gestión de las ventas" textFill="WHITE" VBox.vgrow="ALWAYS">
+                  <Label text="Sistema de Gestión de las ventas" textFill="WHITE" VBox.vgrow="ALWAYS">
                      <font>
                         <Font name="Calibri Light" size="36.0" />
                      </font>
@@ -37,7 +37,7 @@
                         <Insets top="20.0" />
                      </padding>
                   </Label>
-                  <Label fx:id="lblDescription" text="Bienvenido al sistema de administración y gestion de su compañia " textFill="WHITE">
+                  <Label text="Bienvenido al sistema de administración y gestion de su compañia " textFill="WHITE">
                      <font>
                         <Font name="Calibri Light" size="18.0" />
                      </font>

@@ -1,6 +1,6 @@
 package com.company.controller;
 
-import ConnectionDB.ConnDBH2;
+import BusinessDB.ConnDBH2;
 import Models.Employee;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -28,7 +28,13 @@ public class PrincipalControllerTest {
        
         connection = ConnDBH2.connectionDbH2();
 
-        String sql_query = "SELECT * FROM useremployee WHERE user='fulano' AND password='fula' AND typeEmployee='Empleado' AND branchName='Sucursal 2'";
+       /* String sql_query = "SELECT * FROM useremployee WHERE user='fulano' AND password='fula' AND typeEmployee='Empleado' AND branchName='Sucursal 2'";
+
+
+        searchEmployee(String user, String password, String typeEmployee, String branchName)
+
+                            @Test()
+                            searchEmployee("fulano","fula","empleado","Sucursal 2");
         
         statement = connection.createStatement();
         resultSet = statement.executeQuery(sql_query);
@@ -47,7 +53,7 @@ public class PrincipalControllerTest {
         assertNotNull(new_emp.getPassword());
         assertNotNull(new_emp.getTypeEmployee());
         assertNotNull(new_emp.getBranchName());
-   
+   */
     }
     
 }

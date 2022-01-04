@@ -1,13 +1,12 @@
 package com.company.controller;
 
-import ConnectionDB.ConnDBH2;
+import BusinessDB.ConnDBH2;
 import Models.Employee;
-import java.net.URL;
+
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.ResourceBundle;
+
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.mockito.Mock;
