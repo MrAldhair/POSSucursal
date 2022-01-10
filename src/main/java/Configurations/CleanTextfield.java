@@ -8,6 +8,12 @@ public class CleanTextfield {
     
     public static void cleanAllTextfield(List<TextField> listTextField) {
         
+        listTextField.forEach(item -> {
+            
+            item.setText("");
+            
+        });
+        
         /*
         for(TextField item: listTextField) {
         
@@ -15,12 +21,6 @@ public class CleanTextfield {
         
         }
         */
-        
-        listTextField.forEach(item -> {
-            
-            item.setText("");
-            
-        });
         
     }
     
