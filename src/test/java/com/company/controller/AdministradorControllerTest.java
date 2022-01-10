@@ -5,48 +5,91 @@
  */
 package com.company.controller;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import BusinessDB.ConnDBH2;
+import java.sql.Connection;
+
+import static org.hamcrest.Matchers.not;
+
 import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.BeforeEach;
+import static org.mockito.Mockito.*;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Mock;
+
+
+
 
 
 public class AdministradorControllerTest {
+    /*
+    @Mock
+    AdministradorController controller;
+
+@BeforeEach
+void setUp() {
+//    MockitoAnnotations.openMocks(this);
+    MockitoAnnotations.initMocks(this);
+}
+
     
-    public AdministradorControllerTest() {
-    }
     
-    @BeforeClass
-    public static void setUpClass() {
-    }
+    /**
+     * validate that the connection is not null
     
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
+    @Test
+    public void validateSuccessfullConnectionDB(){
+        Connection connection = null;
+        try {
+            // Obtener el objeto de conexión
+            connection = ConnDBH2.connectionDbH2();
+            //assertNotNull(connection);
+            System.out.println("*** Successfull connection to the data base");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            ConnDBH2.closeConnection();
+            System.out.println("Closed connection to the data base");
+        }
     }
 
-    /**
-     * Test of initialize method, of class AdministradorController.
-     */
     @Test
-    public void testInitialize() {
-        System.out.println("initialize");
-        URL url = null;
-        ResourceBundle rb = null;
-        AdministradorController instance = new AdministradorController();
-        instance.initialize(url, rb);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void getDataTest() {
+        //System.out.println("*** Consult employees of H2 Data Base ***");
+
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+        List<String> options= new ArrayList<>();
+        try {
+            // 1. Obtener el objeto de conexión
+            connection = ConnDBH2.connectionDbH2();
+            // 3. Ejecute la instrucción SQL para obtener el resultado
+            String sql_query = "SELECT user FROM USEREMPLOYEE ";
+            // 2. Obtenga la declaración de acuerdo con el objeto de conexión
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(sql_query);
+            // 4. Recorrer el conjunto de resultados
+            while(resultSet.next()){
+                //agrega resultados a lista
+                options.add(resultSet.getString("user"));
+            }
+            statement.close();
+            resultSet.close();
+            
+            assertThat(options, not(IsEmptyCollection.empty()));
+//            assertThat(new ArrayList<>(), IsEmptyCollection.empty());
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            ConnDBH2.closeConnection();
+        }
     }
+    
+    @Test
+    public void getDataTest(){
+        verify(controller);
+        //when(FXCollections.observableArrayList(getData()).thenReturn());
+    }
+*/
+
 }

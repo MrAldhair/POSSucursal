@@ -57,7 +57,6 @@
     <orderEntry type="library" name="Maven: com.company:CrudJSONFinal:1.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: javax.ws.rs:javax.ws.rs-api:2.1" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.8.7" level="project" />
-    <orderEntry type="library" name="Maven: com.jfoenix:jfoenix:8.0.10" level="project" />
     <orderEntry type="library" name="Maven: javax.persistence:javax.persistence-api:2.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.jupiter:junit-jupiter:5.8.2" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.junit.jupiter:junit-jupiter-api:5.8.2" level="project" />

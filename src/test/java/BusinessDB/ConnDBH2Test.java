@@ -1,4 +1,4 @@
-package ConnectionDB;
+package BusinessDB;
 
 import org.junit.Test;
 

@@ -13,7 +13,6 @@ public class PostApi {
     public static void postJson(String json){
         
         try {
-            
                 URL url = new URL("http://localhost:9001/crear");
                 http = (HttpURLConnection) url.openConnection();
                 http.setRequestMethod("POST");
@@ -28,7 +27,7 @@ public class PostApi {
                 http.getResponseMessage();
 //                System.out.println(http.getResponseCode() + " " + http.getResponseMessage());
                 http.disconnect();
-                
+
         } catch (IOException e) {
             
             System.out.println(e);

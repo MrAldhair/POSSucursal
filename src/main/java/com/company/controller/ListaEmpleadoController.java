@@ -1,23 +1,15 @@
-
 package com.company.controller;
 
 import Configurations.Alerts;
 import Configurations.DataAndHour;
 import Configurations.LoadImage;
-import ConnectionDB.ConnDBH2;
+import BusinessDB.Queries;
 import Models.Employee;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -30,7 +22,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
-
 
 public final class ListaEmpleadoController implements Initializable {
 
@@ -48,78 +39,45 @@ public final class ListaEmpleadoController implements Initializable {
     @FXML private TableColumn<Employee, String> colPassword;
     @FXML private TableColumn<Employee, String> colTypeUser;
     @FXML private TableColumn<Employee, String> colBranchName;
- 
-    // Lista de empleados para llenar la tabla
-    private ObservableList<Employee> empleyees;
-    // Instancias la clase que hemos creado anteriormente
-    private static ConnDBH2 SQL = new ConnDBH2();
-    // Llamas al método que tiene la clase y te devuelve una conexión
-    private static Connection conn;
-    // Query que usarás para hacer lo que necesites
-    private static String querySql = "";
-    // Obtener el resuldo de una consulta
-    private ResultSet rs;
-    
+
     //Alerta para obtener el resultado de OK o Cancel
     Alert alert = new Alert(Alert.AlertType.NONE);
     
     // Objeto que se utliza e varios metodos para obtener datos de otro clases
     Employee name_employee = new Employee();
+    Queries queries = new Queries();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        try {
-            
-            DataAndHour.dateAndHour(this.txtDate);
-            LoadImage.loadImageMain(this.imageMain);
-            
-            this.empleyees = FXCollections.observableArrayList();
-            this.colIdEmploye.setCellValueFactory(new PropertyValueFactory("id"));
-            this.colUser.setCellValueFactory(new PropertyValueFactory("user"));
-            this.colPassword.setCellValueFactory(new PropertyValueFactory("password"));
-            this.colTypeUser.setCellValueFactory(new PropertyValueFactory("typeEmployee"));
-            this.colBranchName.setCellValueFactory(new PropertyValueFactory("branchName"));
-            
-            // Llenar tabla con los datos de los empleados
-            fillTable();
-            
-            // Usuario que inicia sesion
-            this.name_employee.setUser(PrincipalController.em.getUser());
-            this.lblNameUser.setText("Usuario: " + name_employee.getUser());
-            
-        } catch (SQLException ex) {
-            
-            Logger.getLogger(ListaEmpleadoController.class.getName()).log(Level.SEVERE, null, ex);
-            
-        }
-        
+        DataAndHour.dateAndHour(this.txtDate);
+        LoadImage.loadImageMain(this.imageMain);
+        this.colIdEmploye.setCellValueFactory(new PropertyValueFactory("id"));
+        this.colUser.setCellValueFactory(new PropertyValueFactory("user"));
+        this.colPassword.setCellValueFactory(new PropertyValueFactory("password"));
+        this.colTypeUser.setCellValueFactory(new PropertyValueFactory("typeEmployee"));
+        this.colBranchName.setCellValueFactory(new PropertyValueFactory("branchName"));
+        //this.tableEmployees.setItems(queries.getAllUsers());
+        // Llenar tabla con los datos de los empleados
+        this.tableEmployees.setItems(queries.getAllUsers());
+        // Usuario que inicia sesion
+        this.name_employee.setUser(PrincipalController.em.getUser());
+        this.lblNameUser.setText("Usuario: " + name_employee.getUser());        
     }
-    
     /*
      * Metodo para cambiar de vista cuando se quiere crear un nuevo empleado para el sistema
     */
     @FXML
     private void generateNewEmployee(ActionEvent event) {
-        
         Object ev = event.getSource();
-        
         if(ev.equals(this.btnGenerateEmployee)){
-            
             try {
-                
                 App.setRoot("VistaAgregarEmpleado");
-                
             } catch (IOException e) {
-                
-                System.out.println("Error: " + e.getMessage());
-                
-            }
-            
-        }
-        
+                System.out.println("Error: " + e.getMessage());   
+            }   
+        }  
     }
-    
     /*
     *  Metodo para eliminar un empleado de la base de datos
     */
@@ -127,115 +85,50 @@ public final class ListaEmpleadoController implements Initializable {
     private void deleteEmployee(ActionEvent event) throws SQLException {
         
         Object ev = event.getSource();
-        
         if(ev.equals(this.btnDelEmployee)){
             
             // Fila seleccionada
             Employee em = this.tableEmployees.getSelectionModel().getSelectedItem();
-        
             if(em != null ) {
-                
-                conn = SQL.connectionDbH2();
-                querySql = "DELETE FROM useremployee WHERE idEmployee = ?";
                 
                 try {
                     this.alert = new Alert(Alert.AlertType.CONFIRMATION);
                     this.alert.setTitle("Nuevo empleado");
                     this.alert.setContentText("¿Desea eliminar este usuario del sistema?");
                     this.alert.setHeaderText(null);
-                    
-                    PreparedStatement preparedStatement = conn.prepareStatement(querySql);
-                    preparedStatement.setString(1, em.getId().toString());
-                    // Se agrega esto para obtener el resultado de la alerta de la confirmación
                     Optional<ButtonType> action = this.alert.showAndWait();
                     
                     // confirmacion de la alerta
                     if (action.get() == ButtonType.OK) {
-                        
-                        preparedStatement.execute();
-                        this.empleyees.remove(em);
-                        this.tableEmployees.refresh();
+                        //gets id from object Employee and delete it
+                        this.queries.deleteUser(em.getId().toString());
+                        //clear all the table
+                        this.tableEmployees.getItems().clear();
+                        //fill table with a new query from DB
+                        this.tableEmployees.setItems(queries.getAllUsers());
                         Alerts.alertInformation("Eliminar empleado", "Elemento eliminado con exito");
-                        
                     } else {
-                        
-                        preparedStatement.cancel();
-                        System.out.println("no execute");
-                        
-                    }
-                    
+                        this.queries.cancel();
+                        System.out.println("no execute"); 
+                    }                    
                 } catch (SQLException e) {
-                    
                     System.out.println(e.getMessage());
-                    
-                } finally {
-                
-                    conn.close();
-                    
                 }
-                
             } else {
-                
                 Alerts.alertWarning("Eliminar empleado", "Debes seleccionar un elemento de la tabla apara poder eliminarlo");
-                
             }
-            
         }
-        
     }
 
     @FXML
     private void swichToAdministrador(ActionEvent event) {
-        
         Object ev = event.getSource();
-        
         if(ev.equals(this.btnReturn)){
-            
             try {
-                
                 App.setRoot("VistaAdministrador");
-                
             } catch (IOException e) {
-                
                 System.out.println("Error: " + e.getMessage());
-                
             }
-            
         }
-        
-    }
-    
-    public void fillTable() throws SQLException{
-        
-        conn = SQL.connectionDbH2();
-        querySql = "SELECT * FROM useremployee";
-        
-        try {
-            
-            PreparedStatement pstm = conn.prepareStatement(querySql);
-            rs = pstm.executeQuery();
-            
-            while(rs.next()){
-                empleyees.add(new Employee(
-                        rs.getInt("idEmployee"), 
-                        rs.getString("user"), 
-                        rs.getString("password"), 
-                        rs.getString("typeEmployee"), 
-                        rs.getString("branchName")));
-            }
-            
-            tableEmployees.setItems(empleyees);
-            
-        } catch (SQLException e) {
-            
-            System.out.println(e.getMessage());
-            
-        } finally {
-        
-            conn.close();
-            
-        }
-        
-    }
-    
+    }  
 }

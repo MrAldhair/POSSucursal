@@ -5,18 +5,11 @@ import BusinessAPI.ListSalesApi;
 import Configurations.Alerts;
 import Configurations.DataAndHour;
 import Configurations.LoadImage;
-import ConnectionDB.ConnDBH2;
+import BusinessDB.Queries;
 import Models.Employee;
 import Models.Sale;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -29,7 +22,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -42,8 +34,6 @@ import org.json.JSONObject;
 
 public class EmpleadoController implements Initializable{
 
-    @FXML private Label lblTitle;
-    @FXML private Label lblDescription;
     @FXML private TextField txtDate;
     @FXML private ImageView imageMain;
     @FXML private TableView<?> tbSales;
@@ -59,24 +49,9 @@ public class EmpleadoController implements Initializable{
     
     private ObservableList<Sale> listSales;
     
-    private BufferedReader bufferedReader;
-    private StringBuilder stringBuilder;
-    private String line;        	
-    private URL url;
-    
     Alert alert = new Alert(Alert.AlertType.NONE);
-    
     Employee em = new Employee();
-    
-     // Instancias la clase que hemos creado anteriormente
-    private static ConnDBH2 SQL = new ConnDBH2();
-    // Llamas al método que tiene la clase y te devuelve una conexión
-    private static Connection conn;
-    // Query que usarás para hacer lo que necesites
-    private static String sSQL = "";
-    private ResultSet rs;
-    
-    Employee name_employee = new Employee();
+    Queries queries = new Queries();
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -92,18 +67,15 @@ public class EmpleadoController implements Initializable{
         this.colDescriptionSale.setCellValueFactory(new PropertyValueFactory<>("description"));
         this.colDateSale.setCellValueFactory(new PropertyValueFactory<>("date_sale"));
         this.colNameBranchOffice.setCellValueFactory(new PropertyValueFactory<>("name_branch_office"));
-        
         listSales = (ObservableList<Sale>) tbSales.getItems();
-        // intentar ejecutar desde el constructor de esta clase
-        try {
+        // Usuario que inicia sesion
+        this.lblUserName.setText("Usuario: " + em.getUser());
+                try {
             loadDataApi();
         } catch (IOException | SQLException ex) {
             Logger.getLogger(EmpleadoController.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
-        
-        // Usuario que inicia sesion
-        this.name_employee.setUser(PrincipalController.em.getUser());
-        this.lblUserName.setText("Usuario: " + name_employee.getUser());
     }
 
     @FXML 
@@ -141,16 +113,23 @@ public class EmpleadoController implements Initializable{
             }
         }
     }
-   
+    
+    //match the user id logged with all the sales and show the inner join from API
     private void loadDataApi() throws IOException, SQLException {
-        ListSalesApi listSalesApi = new ListSalesApi();
-        JSONArray dataArray  = new JSONArray(listSalesApi.consultSales().toString());
         this.tbSales.getItems().removeAll(listSales);
-        
+        //get all the sales in api
+        ListSalesApi listSalesApi = new ListSalesApi();
+        //map sales
+        JSONArray dataArray  = new JSONArray(listSalesApi.consultSales().toString());
+        //get logged user
+        String userEmployee = em.getUser();
+        //search the id from the logged user
+        int idUser = queries.getUserIdLogin(userEmployee);
+
         for(int i = 0 ; i < dataArray.length(); i++){
             JSONObject row = dataArray.getJSONObject(i); 
-                
-            if(row.getInt("id_employee") == userLogin()){
+            //insert to the local listsales the sales realized by user logged    
+            if(row.getInt("id_employee") == idUser){
                 listSales.add(
                         new Sale(
                                 row.getLong("id_sale"), 
@@ -161,21 +140,9 @@ public class EmpleadoController implements Initializable{
                                 row.getString("description"), 
                                 row.getString("date_sale"), 
                                 row.getString("name_employee")));
+            }else{
+                listSales.clear();
             }    
         }             
-    }
-    
-    private int userLogin() throws SQLException {
-        conn = ConnDBH2.connectionDbH2();
-        sSQL = "SELECT idemployee FROM useremployee WHERE user=?";
-        int idUser = 0; 
-        PreparedStatement preparedStatement = conn.prepareStatement(sSQL);
-        preparedStatement.setString(1, em.getUser());
-        rs = preparedStatement.executeQuery();
-        
-        if(rs.next()){    
-            idUser = rs.getInt("idemployee");
-        }
-        return idUser;
     }
 }

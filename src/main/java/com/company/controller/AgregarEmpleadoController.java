@@ -1,18 +1,14 @@
 package com.company.controller;
 
 import BusinessAPI.ListBranchOfficeApi;
+import BusinessDB.Queries;
 import Configurations.Alerts;
 import Configurations.CleanTextfield;
 import Configurations.DataAndHour;
 import Configurations.LoadImage;
-import ConnectionDB.ConnDBH2;
 import Models.Employee;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,13 +52,6 @@ public class AgregarEmpleadoController implements Initializable {
     
     // Agrupar radio buttons
     ToggleGroup tg = new ToggleGroup(); 
-
-    // Generar la conexion
-    private static final ConnDBH2 sql = new ConnDBH2();
-    private static final Connection conn = sql.connectionDbH2(); // Query
-    private static String querySqlInsert = "";
-    private static String querySqlSelect = "";
-    private ResultSet rs;
     
     // Declaracion de la alerta
     Alert alert = new Alert(Alert.AlertType.NONE);
@@ -70,7 +59,11 @@ public class AgregarEmpleadoController implements Initializable {
     // Lista de textfield
     private List<TextField> listTextfield = new ArrayList<>();
     private ObservableList<String> optionsBranchOffice = FXCollections.observableArrayList();
+    private String userName = "";
+    private String pass ="";
+    private String pass2 ="";
     Employee name_employee = new Employee();
+    Queries queries = new Queries();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -102,63 +95,49 @@ public class AgregarEmpleadoController implements Initializable {
     private void insertToDB(ActionEvent event) throws SQLException {
         // Saber que en que nodo se acciona el evento
         Object evt = event.getSource();
+        
         if (evt.equals(this.btnRegistrarEmpleado)) {
-            
+            userName = this.txtUsuario.getText();
+            pass = this.txtContrasena.getText();
+            pass2 = this.txtContrasena2.getText();            
             if (!this.txtContrasena.getText().isEmpty() &&
                     !this.txtContrasena2.getText().isEmpty() && 
                     !this.txtUsuario.getText().isEmpty()) {
-                
-                if (this.txtContrasena.getText().equals(this.txtContrasena2.getText())) { 
-                    // Crear el query
-                    querySqlInsert = 
-                            "INSERT INTO useremployee(user, password, typeEmployee, branchName) VALUES(?,?,?,?)";
-                    try {
+
+                if (pass.equals(pass2)) {
+                    
+                    this.alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    this.alert.setTitle("Nuevo empleado");
+                    this.alert.setContentText("¿Desea agregar un nuevo usuario al sistema?");
+                    this.alert.setHeaderText(null);
                         
-                        PreparedStatement preparedStatement = conn.prepareStatement(querySqlInsert);
-                        preparedStatement.setString(1, this.txtUsuario.getText());
-                        preparedStatement.setString(2, this.txtContrasena.getText());
-                        preparedStatement.setString(4, this.rbSelectBranchOffice.getSelectionModel().getSelectedItem());
+                    // Se agrega esto para obtener el resultado de la alerta de la confirmación
+                    Optional<ButtonType> action = this.alert.showAndWait();
                         
-                        // Obtener el tipo de emplado (Administrador / Empleado)
-                        if (this.radioAdmin.isSelected()) {    
-                            preparedStatement.setString(3, "Administrador");
+                    // confirmacion de la alerta
+                    if (action.get() == ButtonType.OK) {
+                        
+                        // Validar si el usuario existe en la base de datos (h2)
+                        if(!userName.equals(this.queries.userExist(userName))) {    
+                            
+                            // Ejecutar el query
+                            this.queries.insertUser(userName,pass,pass2,
+                                        this.rbSelectBranchOffice.getSelectionModel().getSelectedItem());
+                            Alerts.alertInformation("Nuevo empleado", "¡Usuario agregado con exito!");
+                            
+                            // Limpiar los campos
+                            CleanTextfield.cleanAllTextfield(this.listTextfield);
+                            this.radioAdmin.setSelected(true);
                         } else {
-                            preparedStatement.setString(3, "Empleado");
-                        }
- 
-                        this.alert = new Alert(Alert.AlertType.CONFIRMATION);
-                        this.alert.setTitle("Nuevo empleado");
-                        this.alert.setContentText("¿Desea agregar un nuevo usuario al sistema?");
-                        this.alert.setHeaderText(null);
-                        
-                        // Se agrega esto para obtener el resultado de la alerta de la confirmación
-                        Optional<ButtonType> action = this.alert.showAndWait();
-                        
-                        // confirmacion de la alerta
-                        if (action.get() == ButtonType.OK) {
-                           
-                            // Validar si el usuario existe en la base de datos (h2)
-                            if(!this.txtUsuario.getText().equals(userNameQuery(this.txtUsuario.getText()))) {
-                                // Ejecutar el query
-                                preparedStatement.execute();
-                                Alerts.alertInformation("Nuevo empleado", "¡Usuario agregado con exito!");
-                                // Limpiar los campos
-                                CleanTextfield.cleanAllTextfield(this.listTextfield);
-                                this.radioAdmin.setSelected(true);
-                            } else {
-                                // Cancelar la ejecucion del query
-                                preparedStatement.cancel();
-                                Alerts.alertWarning("Nuevo empleado", "El nombre: " + this.txtUsuario.getText() + " ya se encuentra registrado en el sistema.");
-                            }                                                          
-                        } else {
-                            preparedStatement.cancel();
-                            System.out.println("no execute");
-                        }
-                    } catch (SQLException e) {
-                        System.out.println("Algo fallo: " + e.toString());
-                        //buscar para que sirve esto
-                        Logger.getLogger(AgregarEmpleadoController.class.getName()).log(Level.SEVERE, null, e);
+                            // Cancelar la ejecucion del query
+                            this.queries.cancel();
+                            Alerts.alertWarning("Nuevo empleado", "El nombre: " + this.txtUsuario.getText() + " ya se encuentra registrado en el sistema.");
+                        }                                                          
+                    } else {
+                        this.queries.cancel();
+                        System.out.println("no execute");
                     }
+                    
                 } else {
                     Alerts.alertWarning("Nuevo empleado", "La contraseña no coinciden, verificalo por favor");
                 }
@@ -188,18 +167,5 @@ public class AgregarEmpleadoController implements Initializable {
                 JSONObject row = dataArray.getJSONObject(i); 
                 optionsBranchOffice.add(row.getString("name"));
             }
-    }
-    
-    private String userNameQuery(String userName) throws SQLException {
-        String name = "";
-        // Comprobar si el usuario existe en la base de datos
-        querySqlSelect = "SELECT user FROM useremployee WHERE user=?";
-        PreparedStatement preparedStatement = conn.prepareStatement(querySqlSelect);
-        preparedStatement.setString(1, userName);
-        rs = preparedStatement.executeQuery();
-        while(rs.next()) {
-            name = rs.getString("user");
-        }
-        return name;
     }
 }
