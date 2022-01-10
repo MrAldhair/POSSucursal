@@ -2,7 +2,6 @@ package BusinessDB;
 
 import Models.Employee;
 import com.company.controller.App;
-import javafx.scene.control.ComboBox;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,7 +14,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Queries {
-    
+    ConnDBH2 connDBH2 = new ConnDBH2();
     private static Connection conn;
     private static final String USERS = "SELECT user FROM useremployee";
     private static final String IDS = "SELECT idemployee FROM useremployee WHERE user=?";
@@ -26,10 +25,10 @@ public class Queries {
     private static final String VALIDATE_DATA = "SELECT * FROM useremployee WHERE user=? AND password=? AND typeEmployee=? AND branchName=?";
     
     private ResultSet rs;
-    private PreparedStatement pstm;   
+    private PreparedStatement pstm;
     
     public List<String> getUserName(){
-        conn = ConnDBH2.connectionDbH2();
+        conn = connDBH2.connectionDbH2();
         List<String> options = new ArrayList<>();
         try {
             pstm = conn.prepareCall(USERS);
@@ -47,7 +46,7 @@ public class Queries {
         }
     }
     public ObservableList<Employee> getAllUsers(){
-        conn = ConnDBH2.connectionDbH2();
+        conn = connDBH2.connectionDbH2();
         ObservableList<Employee> listEmployees = FXCollections.observableArrayList();
         
         try {
@@ -71,10 +70,10 @@ public class Queries {
         }
     }
 
-    public Integer getUserId (ComboBox<String> cbox) throws SQLException {
-        conn = ConnDBH2.connectionDbH2();
+    public Integer getUserId (String cbox) throws SQLException {
+        conn = connDBH2.connectionDbH2();
         int idEmployee = -1;
-        String name_user = cbox.getSelectionModel().getSelectedItem();
+        String name_user = cbox;
         pstm = conn.prepareStatement(IDS);
         pstm.setString(1, name_user);
         rs = pstm.executeQuery();
@@ -86,7 +85,7 @@ public class Queries {
     }
     
     public Integer getUserIdLogin (String user) throws SQLException {
-        conn = ConnDBH2.connectionDbH2();
+        conn = connDBH2.connectionDbH2();
         int idEmployee = -1;
         String name_user = user;
         pstm = conn.prepareStatement(IDS);
@@ -99,7 +98,7 @@ public class Queries {
         return idEmployee;
     }
     public void insertUser (String usuario, String pass, String typeEmployee, String branch) throws SQLException{
-        conn = ConnDBH2.connectionDbH2();
+        conn = connDBH2.connectionDbH2();
         pstm = conn.prepareStatement(INSERT_USER);
         pstm.setString(1, usuario);
         pstm.setString(2, pass);
@@ -110,7 +109,7 @@ public class Queries {
     }
     
     public boolean validateUser (String usuario, String pass, String typeEmployee, String branch) throws SQLException{
-        conn = ConnDBH2.connectionDbH2();
+        conn = connDBH2.connectionDbH2();
         pstm = conn.prepareStatement(VALIDATE_DATA);
         pstm.setString(1, usuario);
         pstm.setString(2, pass);
@@ -125,29 +124,35 @@ public class Queries {
     }
     
     public void deleteUser(String id) throws SQLException{
-        conn = ConnDBH2.connectionDbH2();
+        conn = connDBH2.connectionDbH2();
         pstm = conn.prepareStatement(DELETE_USER);
         pstm.setString(1,id);
         pstm.execute();
         conn.close();
     }
     
-    public String userExist(String userName) throws SQLException {
-        conn = ConnDBH2.connectionDbH2();
+    public Boolean userExist(String userName) throws SQLException {
+        conn = connDBH2.connectionDbH2();
         String name = "";
         // Comprobar si el usuario existe en la base de datos
         pstm = conn.prepareStatement(USER_EXIST);
         pstm.setString(1, userName);
         rs = pstm.executeQuery();
-        while(rs.next()) {
+        if(rs.next()) {
             name = rs.getString("user");
+            conn.close();
+            return true;
+        }else{
+            conn.close();
+            return false;
         }
-        conn.close();
-        return name;
+
+       // return name;
     }
-    
+
     public void cancel() throws SQLException{
         pstm.cancel();
         conn.close();
     }
+
 }

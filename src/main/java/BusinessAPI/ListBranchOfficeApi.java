@@ -29,23 +29,15 @@ public class ListBranchOfficeApi {
                 //obtiene respuesta
                 bufferedReader  = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 stringBuilder = new StringBuilder();
-                
+
                 while ((line = bufferedReader.readLine()) != null) {
-                    
                     stringBuilder.append(line);
-                    
                 }
-                
             }
-            
             } catch (MalformedURLException e) {
-                
                 System.out.println("Error: " + e.getMessage());
-                
             }
-        
         return stringBuilder;
-        
     }
     
 }

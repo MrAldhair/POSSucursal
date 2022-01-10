@@ -23,7 +23,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 
-public final class ListaEmpleadoController implements Initializable {
+public class ListaEmpleadoController implements Initializable {
 
     @FXML private Label lblDescription;
     @FXML private Label lblTitle;

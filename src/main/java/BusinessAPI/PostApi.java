@@ -10,7 +10,7 @@ public class PostApi {
     
     private static HttpURLConnection http;
 	
-    public static void postJson(String json){
+    public HttpURLConnection postJson(String json){
         
         try {
                 URL url = new URL("http://localhost:9001/crear");
@@ -33,7 +33,8 @@ public class PostApi {
             System.out.println(e);
             
         }
-        
+
+        return http;
     }
     
 }

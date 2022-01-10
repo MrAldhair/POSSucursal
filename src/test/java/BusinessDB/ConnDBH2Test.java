@@ -1,61 +1,45 @@
 package BusinessDB;
 
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-
-import static org.junit.Assert.*;
+import java.sql.Statement;
 
 public class ConnDBH2Test {
+    @InjectMocks private ConnDBH2 connDBH2 = new ConnDBH2();
+    @Mock private Connection mockConnection;
+    @Mock private Statement mockStatement;
 
-    @Test
-    public void connectionDbH2() {
-
-        System.out.println("*** Successful connection to the data base");
-
-        Connection connection = null;
-
-        try {
-
-            // Obtener el objeto de conexión
-            connection = ConnDBH2.connectionDbH2();
-            assertNotNull(connection);
-
-        } catch (Exception e) {
-
-            System.out.println(e.getMessage());
-
-        } finally {
-
-            ConnDBH2.closeConnection();
-
-        }
-
+    @Before
+    public void before() {
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    public void closeConnection() throws SQLException {
+    public void TestConnectionDBH2Successfull() throws Exception{
 
-        System.out.println("*** Unsuccessful close connection to the data base");
+      Mockito.when(mockConnection.createStatement()).thenReturn(mockStatement);
+      Mockito.when(mockConnection.createStatement().executeUpdate(Mockito.any())).thenReturn(1);
+        boolean value = executeQuery("");
+        Assert.assertEquals(true,value);
+        Mockito.verify(mockConnection.createStatement(),Mockito.times(1));
+    }
 
-        Connection connection = null;
-
-        try {
-
-            System.out.println("No se ha creado ningun punto de conexion");
-
+    public boolean executeQuery(String query) throws ClassNotFoundException, SQLException {
+        try{
+            connDBH2.connectionDbH2();
+            return true;
         } catch (Exception e) {
-
-            System.out.println(e.getMessage());
-
-        } finally {
-
-            ConnDBH2.closeConnection();
-            
+            e.printStackTrace();
+            return false;
         }
-
-        assertNull(connection);
-
     }
 }

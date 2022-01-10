@@ -118,7 +118,7 @@ public class AgregarEmpleadoController implements Initializable {
                     if (action.get() == ButtonType.OK) {
                         
                         // Validar si el usuario existe en la base de datos (h2)
-                        if(!userName.equals(this.queries.userExist(userName))) {    
+                        if(this.queries.userExist(userName)==false) {
                             
                             // Ejecutar el query
                             this.queries.insertUser(userName,pass,pass2,
@@ -130,7 +130,7 @@ public class AgregarEmpleadoController implements Initializable {
                             this.radioAdmin.setSelected(true);
                         } else {
                             // Cancelar la ejecucion del query
-                            this.queries.cancel();
+
                             Alerts.alertWarning("Nuevo empleado", "El nombre: " + this.txtUsuario.getText() + " ya se encuentra registrado en el sistema.");
                         }                                                          
                     } else {
