@@ -140,9 +140,7 @@ public class EmpleadoController implements Initializable{
                                 row.getString("description"), 
                                 row.getString("date_sale"), 
                                 row.getString("name_employee")));
-            }else{
-                listSales.clear();
-            }    
+            }
         }             
     }
 }
