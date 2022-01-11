@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 import org.mockito.Mock;
 
 public class ListaEmpleadoControllerTest {
-    
+    ConnDBH2 connDBH2 = new ConnDBH2();
     @Mock 
     Connection connection = null;
     @Mock
@@ -24,7 +24,7 @@ public class ListaEmpleadoControllerTest {
         try {
 
             // Obtener el objeto de conexión
-            connection = ConnDBH2.connectionDbH2();
+            connDBH2.connectionDbH2();
             assertNotNull(connection);
 
         } catch (Exception e) {
@@ -33,7 +33,7 @@ public class ListaEmpleadoControllerTest {
 
         } finally {
 
-            ConnDBH2.closeConnection();
+        //    connDBH2.closeConnection();
 
         }
 
@@ -57,7 +57,7 @@ public class ListaEmpleadoControllerTest {
 
         } finally {
 
-            ConnDBH2.closeConnection();
+    //        connDBH2.closeConnection();
 
         }
 
@@ -74,7 +74,7 @@ public class ListaEmpleadoControllerTest {
         try {
             
             // 1. Obtener el objeto de conexión
-            connection = ConnDBH2.connectionDbH2();
+            connDBH2.connectionDbH2();
             // 2. Ejecute la instrucción SQL para obtener el resultado
             String sql_query = "DELETE FROM useremployee WHERE idEmployee = 9999";
             // 3. Se obtyiene la declaración de acuerdo con el objeto de conexión
@@ -90,7 +90,7 @@ public class ListaEmpleadoControllerTest {
 
         } finally {
 
-            ConnDBH2.closeConnection();
+        //    connDBH2.closeConnection();
 
         }
 
@@ -107,7 +107,7 @@ public class ListaEmpleadoControllerTest {
 
         try {
             // 1. Obtener el objeto de conexión
-            connection = ConnDBH2.connectionDbH2();
+            connDBH2.connectionDbH2();
             // 3. Ejecute la instrucción SQL para obtener el resultado
             String sql_query = "SELECT * FROM USEREMPLOYEE ";
             // 2. Obtenga la declaración de acuerdo con el objeto de conexión
@@ -127,12 +127,7 @@ public class ListaEmpleadoControllerTest {
 
             System.out.println(e.getMessage());
 
-        } finally {
-
-            ConnDBH2.closeConnection();
-
         }
-
     }
 
 }

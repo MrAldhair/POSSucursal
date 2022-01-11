@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 import org.mockito.Mock;
 
 public class PrincipalControllerTest {
-    
+    ConnDBH2 connDBH2 = new ConnDBH2();
     @Mock 
     Connection connection = null;
     @Mock
@@ -26,7 +26,7 @@ public class PrincipalControllerTest {
     @Test
     public void testGetUser() throws Exception {
        
-        connection = ConnDBH2.connectionDbH2();
+        connDBH2.connectionDbH2();
 
        /* String sql_query = "SELECT * FROM useremployee WHERE user='fulano' AND password='fula' AND typeEmployee='Empleado' AND branchName='Sucursal 2'";
 

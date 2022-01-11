@@ -9,21 +9,26 @@ import Models.Sale;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
+import io.restassured.response.ValidatableResponse;
+import org.junit.Assert;
 import org.junit.Test;
+
+import java.io.IOException;
+
 import static org.hamcrest.Matchers.*;
 
 public class PostApiTest {
-    
-    public PostApiTest() {
-    }
-    
+
+    PostApi instance = new PostApi();
+
+
 
     @Test
-    public void testPostJson() throws JsonProcessingException {
+    public void testPostJson() throws IOException {
         Sale sale = new Sale();
         String json = null;
         ObjectMapper mapper = new ObjectMapper();
-        
+
         sale.setId_sale(0L);
         sale.setId_employee(0);
         sale.setId_branch_office(0L);
@@ -38,9 +43,10 @@ public class PostApiTest {
                 "Fecha: "+ sale.getDate_sale()+ " - " +
                 "Total: "+ sale.getTotal_sale());
         json = mapper.writeValueAsString(sale);
-        
+        int responseCode = instance.postJson(json).getResponseCode();
+        /*
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
-        RestAssured.given()
+        ValidatableResponse responseCodeMock= RestAssured.given()
                 .header("Accept","application/json")
                 .header("Content-Type","application/json")
                 .queryParam("format", "json")
@@ -51,6 +57,8 @@ public class PostApiTest {
                 .then().extract().response()
                 .then()
                 .assertThat().statusCode(is(equalTo(201)));
+                */
+        Assert.assertEquals(201,responseCode);
     }
     
     @Test
@@ -65,4 +73,6 @@ public class PostApiTest {
                 .then()
                 .assertThat().statusCode(is(equalTo(400)));
     }
+
+
 }

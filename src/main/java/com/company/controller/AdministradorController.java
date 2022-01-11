@@ -57,9 +57,9 @@ public class AdministradorController implements Initializable {
     private ObservableList<Sale> listSales;
     private Double totalSales = 0.0;
     private Integer id_user = 0;
-    Queries queries = new Queries();
-    Alert alert = new Alert(Alert.AlertType.NONE);
-    Employee name_employee = new Employee();
+    private Queries queries = new Queries();
+    private Alert alert = new Alert(Alert.AlertType.NONE);
+    private Employee name_employee = new Employee();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -98,7 +98,7 @@ public class AdministradorController implements Initializable {
                 //recorre el json
                 for(int i = 0 ; i < dataArray.length(); i++){
                     JSONObject row = dataArray.getJSONObject(i);
-                    if(row.getInt("id_employee") == queries.getUserId(this.cBoxUsers)){
+                    if(row.getInt("id_employee") == queries.getUserId(this.cBoxUsers.getSelectionModel().getSelectedItem())){
                     listSales.add(
                             new Sale(
                                     row.getLong("id_sale"), 

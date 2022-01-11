@@ -7,16 +7,20 @@ package BusinessAPI;
 
 import io.restassured.RestAssured;
 import static org.hamcrest.Matchers.*;
+
+import org.junit.Assert;
 import org.junit.Test;
 
 public class ListBranchOfficeApiTest {   
     
     @Test
     public void testConsultIdBranchOffice() throws Exception {
-        
+        ListBranchOfficeApi instance = new ListBranchOfficeApi();
+
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
-        
-        String body = RestAssured
+
+        String bodyfromClass = instance.consultIdBranchOffice().toString();
+        String pureBody = RestAssured
                 .given().baseUri("http://localhost:9001/ListBranchOffice")
                 .and().queryParam("format", "json")
                 .when().get("/")
@@ -31,5 +35,7 @@ public class ListBranchOfficeApiTest {
                 .body("number", response -> notNullValue())
                 .body("zip_code", response -> notNullValue())
                 .and().extract().body().asString();
+
+        Assert.assertEquals(pureBody, bodyfromClass);
     }
 }
