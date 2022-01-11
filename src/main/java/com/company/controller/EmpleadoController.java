@@ -47,11 +47,14 @@ public class EmpleadoController implements Initializable{
     @FXML private TableColumn<Sale, String> colNameBranchOffice;
     @FXML private Label lblUserName;
     
-    private ObservableList<Sale> listSales;
+    private ObservableList<Sale> listSales = null;
     
     Alert alert = new Alert(Alert.AlertType.NONE);
     Employee em = new Employee();
     Queries queries = new Queries();
+
+    ListSalesApi listSalesApi = new ListSalesApi();
+    JSONArray dataArray  = new JSONArray();
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -60,7 +63,7 @@ public class EmpleadoController implements Initializable{
         //System.out.println(em.getUser());
         DataAndHour.dateAndHour(this.txtDate);
         LoadImage.loadImageMain(this.imageMain);
-        
+
         this.colIdSale.setCellValueFactory(new PropertyValueFactory<>("id_sale"));
         this.colIdBranchOffice.setCellValueFactory(new PropertyValueFactory<>("id_branch_office"));
         this.colTotalSale.setCellValueFactory(new PropertyValueFactory<>("total_sale"));
@@ -68,13 +71,15 @@ public class EmpleadoController implements Initializable{
         this.colDateSale.setCellValueFactory(new PropertyValueFactory<>("date_sale"));
         this.colNameBranchOffice.setCellValueFactory(new PropertyValueFactory<>("name_branch_office"));
         listSales = (ObservableList<Sale>) tbSales.getItems();
+
         // Usuario que inicia sesion
         this.lblUserName.setText("Usuario: " + em.getUser());
-                try {
+
+        try {
             loadDataApi();
         } catch (IOException | SQLException ex) {
             Logger.getLogger(EmpleadoController.class.getName()).log(Level.SEVERE, null, ex);
-            
+
         }
     }
 
@@ -118,15 +123,15 @@ public class EmpleadoController implements Initializable{
     private void loadDataApi() throws IOException, SQLException {
         this.tbSales.getItems().removeAll(listSales);
         //get all the sales in api
-        ListSalesApi listSalesApi = new ListSalesApi();
+        this.listSalesApi = new ListSalesApi();
         //map sales
-        JSONArray dataArray  = new JSONArray(listSalesApi.consultSales().toString());
+        this.dataArray  = new JSONArray(listSalesApi.consultSales().toString());
         //get logged user
         String userEmployee = em.getUser();
         //search the id from the logged user
         int idUser = queries.getUserIdLogin(userEmployee);
 
-        for(int i = 0 ; i < dataArray.length(); i++){
+        for(int i = 0 ; i < dataArray.length(); i++) {
             JSONObject row = dataArray.getJSONObject(i); 
             //insert to the local listsales the sales realized by user logged    
             if(row.getInt("id_employee") == idUser){
@@ -143,4 +148,5 @@ public class EmpleadoController implements Initializable{
             }
         }             
     }
+
 }

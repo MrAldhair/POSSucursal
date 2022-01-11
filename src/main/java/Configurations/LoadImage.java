@@ -1,4 +1,3 @@
-
 package Configurations;
 
 import javafx.scene.image.Image;

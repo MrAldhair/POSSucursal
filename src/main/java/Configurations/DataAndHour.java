@@ -16,12 +16,15 @@ public class DataAndHour {
         try {
             
             Timer timer = new Timer();
+            
             TimerTask task = new TimerTask() {
                 @Override
                 public void run() {
+                    
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");// 
                     LocalDateTime now = LocalDateTime.now();
                     txtdate.setText(dtf.format(now));
+                    
                 }
             };
             

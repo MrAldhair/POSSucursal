@@ -18,33 +18,33 @@ public class ListSalesApi {
         try{
             
             // api para consumir los datos
-                URL url = new URL("http://localhost:9001/listar");
-                //realiza la conexion
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("GET");            
-                connection.connect();
+            URL url = new URL("http://localhost:9001/listar");
+            //realiza la conexion
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.connect();
 
-                if(connection.getResponseCode() == 200){
-                    
-                    System.out.println("Response: OK");
-                    //obtiene respuesta
-                    bufferedReader  = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                    stringBuilder = new StringBuilder();
-                    
-                    while ((line = bufferedReader.readLine()) != null) {
-                        
-                        stringBuilder.append(line);
-                        
-                    }
-                    
+            if(connection.getResponseCode() == 200){
+
+                System.out.println("Response: OK");
+                //obtiene respuesta
+                bufferedReader  = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                stringBuilder = new StringBuilder();
+
+                while ((line = bufferedReader.readLine()) != null) {
+
+                    stringBuilder.append(line);
+
                 }
-                
-            } catch (MalformedURLException e) {
-                
-                System.out.println("Error: " + e.getMessage());
-                
+
             }
-        
+
+            } catch (MalformedURLException e) {
+
+                System.out.println("Error: " + e.getMessage());
+
+            }
+
         return stringBuilder;
         
     }    

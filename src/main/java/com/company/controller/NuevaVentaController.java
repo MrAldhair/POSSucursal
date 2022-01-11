@@ -54,7 +54,7 @@ public class NuevaVentaController implements Initializable{
     Employee name_employee = new Employee();
     BranchOffice new_branch_office = new BranchOffice();
     Queries queries = new Queries();
-    PostApi postApi = new PostApi();
+    
     public NuevaVentaController() {
         // Inicializar la lista
         this.listTextfield = new ArrayList<>();
@@ -139,7 +139,8 @@ public class NuevaVentaController implements Initializable{
                     if (action.get() == ButtonType.OK) {
                         //Enviar datos de venta
                         json = mapper.writeValueAsString(new_sale);
-                        postApi.postJson(json);
+                        PostApi.postJson(json);
+                        System.out.println("¡¡venta enviada!!");
                         Alerts.alertInformation("Generación de venta", "Nueva venta generada con exito");
                         // Limpiar los campos
                         CleanTextfield.cleanAllTextfield(this.listTextfield);
