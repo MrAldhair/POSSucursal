@@ -2,7 +2,7 @@ package com.company.controller;
 
 import BusinessAPI.ListBranchOfficeApi;
 import Configurations.Alerts;
-import Configurations.DataAndHour;
+import Configurations.DateAndHour;
 import Configurations.LoadImage;
 import BusinessDB.Queries;
 import Models.BranchOffice;
@@ -18,7 +18,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -40,8 +39,7 @@ public class PrincipalController implements Initializable {
     @FXML private TextField txtUserName;
     @FXML private TextField txtPassword;
     @FXML private Button btnLogin;
-    
-    Alert alert = new Alert(Alert.AlertType.NONE);
+
     Queries queries = new Queries();
 
     private final ObservableList<String> optionEmployee = FXCollections.observableArrayList( "Administrador", "Empleado");
@@ -56,7 +54,7 @@ public class PrincipalController implements Initializable {
             loadDataBranchOffice();
             rbSelectOptionMain.setItems(optionEmployee);
             rbSelectBranchOffice.setItems(optionsBranchOffice);
-            DataAndHour.dateAndHour(this.txtDate);
+            DateAndHour.dateAndHour(this.txtDate);
             LoadImage.loadImageMain(this.imageMain);   
         } catch (IOException ex) {
             Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex);
@@ -111,6 +109,7 @@ public class PrincipalController implements Initializable {
             }
         }
     }
+
     private void loadDataBranchOffice() throws IOException{
         
         ListBranchOfficeApi branch = new ListBranchOfficeApi();

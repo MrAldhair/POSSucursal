@@ -3,7 +3,7 @@ package com.company.controller;
 
 import BusinessAPI.ListSalesApi;
 import Configurations.Alerts;
-import Configurations.DataAndHour;
+import Configurations.DateAndHour;
 import Configurations.LoadImage;
 import BusinessDB.Queries;
 import Models.Employee;
@@ -61,7 +61,7 @@ public class EmpleadoController implements Initializable{
         // Usuario que inicia sesion trasferido desde la clase PrincipalController
         this.em.setUser(PrincipalController.em.getUser()); 
         //System.out.println(em.getUser());
-        DataAndHour.dateAndHour(this.txtDate);
+        DateAndHour.dateAndHour(this.txtDate);
         LoadImage.loadImageMain(this.imageMain);
 
         this.colIdSale.setCellValueFactory(new PropertyValueFactory<>("id_sale"));

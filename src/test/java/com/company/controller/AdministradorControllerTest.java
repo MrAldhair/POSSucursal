@@ -40,19 +40,18 @@ public class AdministradorControllerTest {
     @Test
     public void validateSuccessfullConnectionDB(){
         Connection connection = null;
+        ConnDBH2 connDBH2 = new ConnDBH2();
         try {
+
             // Obtener el objeto de conexión
-            connection = ConnDBH2.connectionDbH2();
+            connection = connDBH2.connectionDbH2();
             //assertNotNull(connection);
             System.out.println("*** Successfull connection to the data base");
         } catch (Exception e) {
             System.out.println(e.getMessage());
-        } finally {
-            ConnDBH2.closeConnection();
-            System.out.println("Closed connection to the data base");
         }
     }
-
+/*
     @Test
     public void getDataTest() {
         //System.out.println("*** Consult employees of H2 Data Base ***");
@@ -62,6 +61,7 @@ public class AdministradorControllerTest {
         ResultSet resultSet = null;
         List<String> options= new ArrayList<>();
         try {
+            ConnDBH2 connDBH2 = new ConnDBH2();
             // 1. Obtener el objeto de conexión
             connection = ConnDBH2.connectionDbH2();
             // 3. Ejecute la instrucción SQL para obtener el resultado
@@ -82,7 +82,7 @@ public class AdministradorControllerTest {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {
-            ConnDBH2.closeConnection();
+            connection.closeConnection();
         }
     }
     /*

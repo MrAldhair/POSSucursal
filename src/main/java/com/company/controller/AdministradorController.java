@@ -3,7 +3,7 @@ package com.company.controller;
 import BusinessAPI.ListSalesApi;
 import BusinessDB.Queries;
 import Configurations.Alerts;
-import Configurations.DataAndHour;
+import Configurations.DateAndHour;
 import Configurations.LoadImage;
 import Models.Employee;
 import Models.Sale;
@@ -64,7 +64,7 @@ public class AdministradorController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        DataAndHour.dateAndHour(this.txtDate);
+        DateAndHour.dateAndHour(this.txtDate);
         LoadImage.loadImageMain(this.imageMain);
         
         this.colIdSale.setCellValueFactory(new PropertyValueFactory<>("id_sale"));
@@ -161,7 +161,7 @@ public class AdministradorController implements Initializable {
         Object ev = event.getSource();
         
         if(ev.equals(this.btnLoadJson)){
-            this.totalSales = 0.0;
+
             ListSalesApi listSalesApi = new ListSalesApi();
             JSONArray dataArray  = new JSONArray(listSalesApi.consultSales().toString());
             tbSalesAdmin.getItems().removeAll(listSales);

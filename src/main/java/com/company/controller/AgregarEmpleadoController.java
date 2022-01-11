@@ -4,7 +4,7 @@ import BusinessAPI.ListBranchOfficeApi;
 import BusinessDB.Queries;
 import Configurations.Alerts;
 import Configurations.CleanTextfield;
-import Configurations.DataAndHour;
+import Configurations.DateAndHour;
 import Configurations.LoadImage;
 import Models.Employee;
 import java.io.IOException;
@@ -73,7 +73,7 @@ public class AgregarEmpleadoController implements Initializable {
             Logger.getLogger(AgregarEmpleadoController.class.getName()).log(Level.SEVERE, null, ex);
         }
         // Cargar la hora
-        DataAndHour.dateAndHour(this.txtDate);
+        DateAndHour.dateAndHour(this.txtDate);
         // Cargar la imagen
         LoadImage.loadImageMain(this.imageMain);
         // cargar sucursales
@@ -82,6 +82,7 @@ public class AgregarEmpleadoController implements Initializable {
         this.radioAdmin.setToggleGroup(this.tg);
         this.radioEmpleado.setToggleGroup(this.tg);
         this.radioAdmin.setSelected(true);
+
         // Lista para limpiar los TextField
         this.listTextfield.add(this.txtUsuario);
         this.listTextfield.add(this.txtContrasena);
@@ -119,15 +120,16 @@ public class AgregarEmpleadoController implements Initializable {
                         
                         // Validar si el usuario existe en la base de datos (h2)
                         if(this.queries.userExist(userName)==false) {
-                            
+                            ((RadioButton)this.tg.getSelectedToggle()).getText();
                             // Ejecutar el query
-                            this.queries.insertUser(userName,pass,pass2,
-                                        this.rbSelectBranchOffice.getSelectionModel().getSelectedItem());
+                            this.queries.insertUser(userName,pass,
+                                    ((RadioButton)this.tg.getSelectedToggle()).getText(),
+                                        this.rbSelectBranchOffice.getSelectionModel().getSelectedItem()
+                                    );
                             Alerts.alertInformation("Nuevo empleado", "¡Usuario agregado con exito!");
                             
                             // Limpiar los campos
                             CleanTextfield.cleanAllTextfield(this.listTextfield);
-                            this.radioAdmin.setSelected(true);
                         } else {
                             // Cancelar la ejecucion del query
 

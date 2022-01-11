@@ -19,8 +19,8 @@ public class PostApi {
                 http.setDoOutput(true);
                 http.setRequestProperty("Accept","application/json");
                 http.setRequestProperty("Content-Type","application/json");
-                String data = json;
-                byte[] out = data.getBytes(StandardCharsets.UTF_8);
+                //String data = json;
+                byte[] out = json.getBytes(StandardCharsets.UTF_8);
                 OutputStream stream = http.getOutputStream();
                 stream.write(out);
                 http.getResponseCode();

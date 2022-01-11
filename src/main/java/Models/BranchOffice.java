@@ -15,14 +15,4 @@ public class BranchOffice {
 
     public BranchOffice() { }
 
-    public BranchOffice(long id_branch_office, String name, String state, String city, String street, String number, Integer zip_code) {
-        this.id_branch_office = id_branch_office;
-        this.name = name;
-        this.state = state;
-        this.city = city;
-        this.street = street;
-        this.number = number;
-        this.zip_code = zip_code;
-    }
-  
 }

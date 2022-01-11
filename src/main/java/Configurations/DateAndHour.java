@@ -8,7 +8,7 @@ import java.util.TimerTask;
 import javafx.scene.control.TextField;
 
 
-public class DataAndHour {
+public class DateAndHour {
     
     public static void dateAndHour(TextField txtdate){
  

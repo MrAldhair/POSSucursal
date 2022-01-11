@@ -2,7 +2,7 @@ package com.company.controller;
 
 import Configurations.Alerts;
 import Configurations.CleanTextfield;
-import Configurations.DataAndHour;
+import Configurations.DateAndHour;
 import Configurations.LoadImage;
 import BusinessAPI.ListBranchOfficeApi;
 import BusinessAPI.PostApi;
@@ -59,21 +59,7 @@ public class NuevaVentaController implements Initializable{
         // Inicializar la lista
         this.listTextfield = new ArrayList<>();
     }
-    
-    /*
-    * Validar que el campo de txtTotal se un numero y no otro tipos de caracteres
-    */
-    public boolean validateTextField() throws IOException {
-        
-        try {
-            Double.parseDouble(this.txtTotal.getText());
-        } catch (NumberFormatException e) {
-            Alerts.alertWarning("Campos invalidos", "Ingresa solamente números en TOTAL");
-            CleanTextfield.cleanAllTextfield(this.listTextfield);
-            return false;
-        }
-        return true;
-    }
+
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -84,7 +70,7 @@ public class NuevaVentaController implements Initializable{
         // Usuario que inicia sesion en pantalla
         this.lblUserName.setText("Usuario: " + name_employee.getUser());
         //Establecer la hora en la pantalla
-        DataAndHour.dateAndHour(txtDate);
+        DateAndHour.dateAndHour(txtDate);
         // Cargar logo en la pantalla
         LoadImage.loadImageMain(this.imageMain);
         this.listTextfield.add(this.txtTotal);
@@ -124,11 +110,13 @@ public class NuevaVentaController implements Initializable{
                         "Empleado: "+new_sale.getName_employee()+" - "+
                         "Fecha: "+new_sale.getDate_sale()+" - "+
                         "Total: "+new_sale.getTotal_sale().toString());
+
+                //mapper convierte objeto a String en formato json.
                 ObjectMapper mapper = new ObjectMapper();
                 String json;
                 
                 try {
-                    
+                    PostApi postApi = new PostApi();
                     this.alert = new Alert(Alert.AlertType.CONFIRMATION);
                     this.alert.setTitle("Generación de venta");
                     this.alert.setContentText("Confirmar venta");
@@ -139,7 +127,7 @@ public class NuevaVentaController implements Initializable{
                     if (action.get() == ButtonType.OK) {
                         //Enviar datos de venta
                         json = mapper.writeValueAsString(new_sale);
-                        PostApi.postJson(json);
+                        postApi.postJson(json);
                         System.out.println("¡¡venta enviada!!");
                         Alerts.alertInformation("Generación de venta", "Nueva venta generada con exito");
                         // Limpiar los campos
@@ -189,5 +177,20 @@ public class NuevaVentaController implements Initializable{
             }
             } catch (MalformedURLException e) {}        
         return id_branch_office;
+    }
+
+    /*
+     * Validar que el campo de txtTotal se un numero y no otro tipos de caracteres
+     */
+    public boolean validateTextField() throws IOException {
+
+        try {
+            Double.parseDouble(this.txtTotal.getText());
+        } catch (NumberFormatException e) {
+            Alerts.alertWarning("Campos invalidos", "Ingresa solamente números en TOTAL");
+            CleanTextfield.cleanAllTextfield(this.listTextfield);
+            return false;
+        }
+        return true;
     }
 }

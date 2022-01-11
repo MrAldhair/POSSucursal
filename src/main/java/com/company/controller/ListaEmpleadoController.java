@@ -1,7 +1,7 @@
 package com.company.controller;
 
 import Configurations.Alerts;
-import Configurations.DataAndHour;
+import Configurations.DateAndHour;
 import Configurations.LoadImage;
 import BusinessDB.Queries;
 import Models.Employee;
@@ -50,7 +50,7 @@ public class ListaEmpleadoController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        DataAndHour.dateAndHour(this.txtDate);
+        DateAndHour.dateAndHour(this.txtDate);
         LoadImage.loadImageMain(this.imageMain);
         this.colIdEmploye.setCellValueFactory(new PropertyValueFactory("id"));
         this.colUser.setCellValueFactory(new PropertyValueFactory("user"));

@@ -21,7 +21,7 @@ public class Queries {
     private static final String INSERT_USER = "INSERT INTO useremployee(user, password, typeEmployee, branchName) VALUES(?,?,?,?)";
     private static final String USER_EXIST = "SELECT user FROM useremployee WHERE user=?";
     private static final String DELETE_USER = "DELETE FROM useremployee WHERE idEmployee = ?";
-    private static final String SELECT_ALL = "SELECT * FROM useremployee ";
+    private static final String SELECT_ALL = "SELECT * FROM useremployee";
     private static final String VALIDATE_DATA = "SELECT * FROM useremployee WHERE user=? AND password=? AND typeEmployee=? AND branchName=?";
     
     private ResultSet rs;
