@@ -140,6 +140,7 @@ public class NuevaVentaController implements Initializable{
                         //Enviar datos de venta
                         json = mapper.writeValueAsString(new_sale);
                         PostApi.postJson(json);
+                        System.out.println("¡¡venta enviada!!");
                         Alerts.alertInformation("Generación de venta", "Nueva venta generada con exito");
                         // Limpiar los campos
                         CleanTextfield.cleanAllTextfield(this.listTextfield);
